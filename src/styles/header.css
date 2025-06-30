@@ -1,0 +1,91 @@
+header {
+    background-color: #e3f2fd;
+    border-bottom: 1px solid #f9fafb;
+    padding: 0.25rem 0;
+}
+
+.nav-container {
+    max-width: 100%; /* 去掉1200px限制，让header占满屏幕 */
+    margin: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 1rem;
+    height: 45px;
+}
+
+/* 中等屏幕时适当增加padding */
+@media (min-width: 768px) {
+    .nav-container {
+        padding: 0 2rem;
+    }
+}
+
+/* 大屏幕时进一步增加padding但不限制宽度 */
+@media (min-width: 1024px) {
+    .nav-container {
+        padding: 0 4rem;
+    }
+}
+
+.nav-right {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    height: 100%;
+}
+
+h1 {
+    margin: 0;
+    line-height: 1;
+}
+
+h1 a {
+    text-decoration: none;
+    color: #333;
+    display: flex;
+    align-items: center;
+}
+
+.nav-right a {
+    text-decoration: none;
+    color: rgba(0,0,0,.9);
+    line-height: 1;
+}
+
+.nav-right a:hover {
+    color: #333;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropbtn {
+  background-color: #f0f0f0;
+  border: none;
+  padding: 10px;
+  min-width: 100px;
+  cursor: pointer;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: white;
+  box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
+  min-width: 100px;
+  z-index: 1;
+}
+
+.dropdown-content a {
+  padding: 8px 12px;
+  display: block;
+  text-decoration: none;
+  color: black;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
