@@ -1,18 +1,20 @@
 ---
+import { getEntry, render } from 'astro:content';
 
 export interface Props {
-  title: string;
-  date: string;
-  content: string;
+  id: string;
 }
 
-const { title, date, content } = Astro.props;
+const { id } = Astro.props;
+const entry = await getEntry('blog', id);
+if (!entry) throw new Error(`未找到博客文章：${id}`);
+
+const { Content } = await render(entry);
 ---
 
 <article class="article-layout">
-  <h1>{title}</h1>
-  <p class="date">{date}</p>
-  <div class="content">
-    {content}
-  </div>
+  <h1>{entry.data.title}</h1>
+  <p class="date">{entry.data.date}</p>
+  <Content />
+
 </article>

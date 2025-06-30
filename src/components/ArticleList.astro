@@ -1,0 +1,15 @@
+---
+export interface Props {
+    articles: Array<{ slug: string; title: string; date: string; }>;
+}
+const { articles } = Astro.props;
+---
+
+<div class="articles-list">
+    {articles.map(article => (
+        <div class="article-item" article-slug={article.slug}>
+            <h3>{article.title}</h3>
+            <p class="article-date">{article.date}</p>
+        </div>
+    ))}
+</div>

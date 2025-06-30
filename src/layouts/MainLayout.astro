@@ -1,4 +1,5 @@
 ---
+import Header from '../components/Header.astro';
 import { ClientRouter } from "astro:transitions"; 
 ---
 
@@ -13,7 +14,10 @@ import { ClientRouter } from "astro:transitions";
 		<ClientRouter />
 	</head>
 	<body transition:animate="slide">
-		<slot />
+		<Header />
+		<main>
+            <slot />
+        </main>
 	</body>
 </html>
 
