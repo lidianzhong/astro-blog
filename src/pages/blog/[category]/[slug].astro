@@ -1,38 +1,40 @@
 ---
+import { getCollection } from 'astro:content';
+
 import ArticleLayout from '../../../layouts/ArticleLayout.astro';
 import CategorySidebar from '../../../components/CategorySidebar.astro';
 import MainLayout from '../../../layouts/MainLayout.astro';
 
 import '../../../styles/category-page.css';
 
-export async function getStaticPaths() {
-  return [
-    { params: { category: 'frontend', slug: 'hello-world' } },
-    { params: { category: 'backend', slug: 'server-setup' } },
-    { params: { category: 'cpp', slug: 'first-article' } },
-    
-  ];
-}
-
 const { category, slug } = Astro.params;
 
-// 这里可以根据 category 和 slug 获取对应的文章内容
-// 这里只做演示，实际可根据 slug 查询 markdown 文件或数据库
-const title = `分类：${category}，文章：${slug}`;
-const date = "2025-07-01";
-const content = `# 这是 ${slug} 的内容
+// CategorySidebar Related
+const articles = await getCollection('blog', (article) => {
+  const article_category = article.id.split('/')[0]; // article.id format: "cpp/first-article"
+  return article_category === category;
+});
 
-属于分类：${category}
-`;
+const categorySidebarInfo = articles.map((article) => ({
+  id: article.id,
+  title: article.data.title,
+  date: article.data.date.toLocaleDateString(),
+}));
+
+
+export async function getStaticPaths() {
+  const articles = await getCollection('blog');
+  return articles.map(article => {
+    const [category, slug] = article.id.split('/');
+    return { params: { category, slug } };
+  });
+}
+
 ---
 
 <MainLayout>
-    <section class="category-layout" data-category={category}>
-        <CategorySidebar articles={[
-            { slug: 'hello-world', title: 'Hello World', date: '2025-07-01' },
-            { slug: 'server-setup', title: 'Server Setup', date: '2025-07-02' },
-            { slug: 'first-article', title: 'First Article', date: '2025-07-03' }
-        ]} />
+    <section class="category-layout">
+        <CategorySidebar articles={categorySidebarInfo} />
         <ArticleLayout id=`${category}/${slug}` />
     </section>
 </MainLayout>

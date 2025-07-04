@@ -1,6 +1,6 @@
 ---
 export interface Props {
-    articles: Array<{ slug: string; title: string; date: string; }>;
+    articles: Array<{ id: string; title: string; date: string; }>;
 }
 const { articles } = Astro.props;
 ---
@@ -8,7 +8,7 @@ const { articles } = Astro.props;
 <aside class="category-sidebar">
     <div class="articles-list">
         {articles.map(article => (
-            <div class="article-item" article-slug={article.slug}>
+            <div class="article-item" article-id={article.id}>
                 <h3>{article.title}</h3>
                 <p class="article-date">{article.date}</p>
             </div>
