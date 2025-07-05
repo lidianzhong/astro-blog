@@ -1,0 +1,23 @@
+---
+import { getCollection } from 'astro:content';
+import CategorySidebarLayout from '../../layouts/CategorySidebarLayout.astro';
+import MainLayout from '../../layouts/MainLayout.astro';
+
+import '../../styles/category-page.css';
+
+const { category } = Astro.params;
+
+export async function getStaticPaths() {
+  const articles = await getCollection('blog');
+  const categories = Array.from(new Set(
+    articles.map(article => article.id.split('/')[0])
+  ));
+  return categories.map(category => ({
+    params: { category }
+  }));
+}
+---
+
+<MainLayout>
+  <CategorySidebarLayout category={category} />
+</MainLayout>

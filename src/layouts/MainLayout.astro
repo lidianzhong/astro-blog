@@ -13,11 +13,11 @@ import { ClientRouter } from "astro:transitions";
 		<title>Astro Basics</title>
 		<ClientRouter />
 	</head>
-	<body transition:animate="slide">
-		<Header />
-		<main>
-            <slot />
-        </main>
+	<body >
+		<Header transition:persist />
+		<main class="main-content">
+			<slot />
+		</main>
 	</body>
 </html>
 
@@ -27,5 +27,14 @@ import { ClientRouter } from "astro:transitions";
 		margin: 0;
 		width: 100%;
 		height: 100%;
+	}
+
+	.main-content {
+		display: flex;
+		align-items: flex-start;
+		gap: 2rem;
+		max-width: 1200px;
+		margin: 0 auto;
+		padding: 2rem 1rem;
 	}
 </style>

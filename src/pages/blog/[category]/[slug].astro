@@ -2,25 +2,12 @@
 import { getCollection } from 'astro:content';
 
 import ArticleLayout from '../../../layouts/ArticleLayout.astro';
-import CategorySidebar from '../../../components/CategorySidebar.astro';
+import CategorySidebarLayout from '../../../layouts/CategorySidebarLayout.astro';
 import MainLayout from '../../../layouts/MainLayout.astro';
 
 import '../../../styles/category-page.css';
 
 const { category, slug } = Astro.params;
-
-// CategorySidebar Related
-const articles = await getCollection('blog', (article) => {
-  const article_category = article.id.split('/')[0]; // article.id format: "cpp/first-article"
-  return article_category === category;
-});
-
-const categorySidebarInfo = articles.map((article) => ({
-  id: article.id,
-  title: article.data.title,
-  date: article.data.date.toLocaleDateString(),
-}));
-
 
 export async function getStaticPaths() {
   const articles = await getCollection('blog');
@@ -29,12 +16,9 @@ export async function getStaticPaths() {
     return { params: { category, slug } };
   });
 }
-
 ---
 
 <MainLayout>
-    <section class="category-layout">
-        <CategorySidebar articles={categorySidebarInfo} />
-        <ArticleLayout id=`${category}/${slug}` />
-    </section>
+  <CategorySidebarLayout category={category} />
+  <ArticleLayout id={`${category}/${slug}`} />
 </MainLayout>

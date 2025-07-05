@@ -1,33 +1,36 @@
 ---
 import '../styles/header.css';
+import { getCollection } from 'astro:content';
 
-// TODO: Replace this with your actual categories data fetching logic
-function getCategories() {
-    return [
-        { id: 'frontend', displayName: '前端' },
-        { id: 'backend', displayName: '后端' },
-        { id: 'ai', displayName: '人工智能' },
-        { id: 'life', displayName: '生活' }
-    ];
-}
+const displayNameMap: Record<string, string> = {
+  cpp: 'C++',
+  algorithm: '算法',
+};
 
-const categories = getCategories();
+const articles = await getCollection('blog');
+const categoriesSet = new Set(
+  articles.map(article => article.id.split('/')[0])
+);
+const categories = Array.from(categoriesSet).map(id => ({
+  id,
+  displayName: (displayNameMap as Record<string, string>)[id] || id
+}));
 ---
 
 <header>
-        <nav>
-                <div class="nav-container">
-                        <h1><a href="/">我的博客</a></h1>
-                        <div class="nav-right">
-                                <div class="dropdown">
-                                        <button class="dropbtn">分类</button>
-                                        <div class="dropdown-content">
-                                        {categories.map((category) => (
-                                                <a href={`/category/${category.id}`}>{category.displayName}</a>
-                                        ))}
-                                </div>
-                                </div>
-                                </div>
+    <nav>
+        <div class="nav-container">
+            <h1><a href="/">BLOG</a></h1>
+            <div class="nav-right">
+                <div class="dropdown">
+                    <button class="dropbtn">分类</button>
+                    <div class="dropdown-content">
+                        {categories.map((category) => (
+                            <a href={`/blog/${category.id}`}>{category.displayName}</a>
+                        ))}
+                    </div>
                 </div>
-        </nav>
+            </div>
+        </div>
+    </nav>
 </header>

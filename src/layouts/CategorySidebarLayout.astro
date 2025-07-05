@@ -1,0 +1,6 @@
+---
+import CategorySidebarContent from '../components/CategorySidebarContent.jsx';
+const { category } = Astro.props;
+---
+
+<CategorySidebarContent category={category} client:load />
