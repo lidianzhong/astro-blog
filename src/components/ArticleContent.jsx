@@ -1,4 +1,7 @@
+import { marked } from 'marked';
 import { useEffect, useState } from 'react';
+
+import '../styles/markdown.css';
 
 const CACHE_PREFIX = 'article_cache_';
 const CACHE_EXPIRE = 5 * 60 * 1000; // 5分钟
@@ -60,7 +63,10 @@ export default function ArticleContent({ id }) {
       <h1>{data.title}</h1>
       <p className="date">{data.date}</p>
       {data.updatedAt && <p className="updated-at">Updated at: {data.updatedAt}</p>}
-      <div className="markdown-body" dangerouslySetInnerHTML={{ __html: data.content }}></div>
+      <div
+        className="markdown-body"
+        dangerouslySetInnerHTML={{ __html: marked(data.content) }}
+      ></div>
     </article>
   );
 }

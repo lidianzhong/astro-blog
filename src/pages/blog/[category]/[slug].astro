@@ -20,5 +20,5 @@ export async function getStaticPaths() {
 
 <MainLayout>
   <CategorySidebarLayout category={category} />
-  <ArticleLayout id={`${category}/${slug}`} />
+  <ArticleLayout id={`${category}/${slug}`} edit={Astro.url.searchParams.get('edit') === '1'} />
 </MainLayout>

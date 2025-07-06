@@ -1,6 +1,8 @@
 ---
 import ArticleContent from '../components/ArticleContent.jsx';
+import ArticleEditor from '../components/ArticleEditor.jsx';
 const { id } = Astro.props;
 ---
 
-<ArticleContent id={id} client:load />
+<!-- <ArticleContent id={id} client:load /> -->
+ <ArticleEditor id={id} client:load />

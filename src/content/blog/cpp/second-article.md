@@ -1,20 +1,6 @@
 ---
-title: The Second C++ Article
-author: Dianzhong
-date: 2025-07-01
+title: ""
+date: "2025-07-05T19:41:31.690Z"
 ---
 
-这是我的 _很棒_ 的文章！✨
-
-```cpp
-#include <iostream>
-
-int main() {
-    std::cout << "Hello, World!" << std::endl;
-    return 0;
-}
-```
-> test1
-
-
-
+<p>这是我的123文章！✨ ```cpp #include int main() { std::cout &lt;&lt; "Hello, World!" &lt;&lt; std::endl; return 0; } ``` &gt; test1</p>

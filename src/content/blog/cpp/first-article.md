@@ -1,17 +1,6 @@
 ---
-title: The Great Post
-author: Dianzhong
-date: 2025-07-01
+title: ""
+date: "2025-07-05T19:39:19.768Z"
 ---
 
-这是我的 _很棒_ 的文章！✨
-
-```cpp
-#include <iostream>
-
-int main() {
-    std::cout << "Hello, World!" << std::endl;
-    return 0;
-}
-```
-
+<p>123456 _很棒_ 的文章！✨ ```cpp #include int main() { std::cout &lt;&lt; "Hello, World!" &lt;&lt; std::endl; return 0; } ```</p>
