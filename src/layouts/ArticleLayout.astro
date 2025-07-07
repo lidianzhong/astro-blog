@@ -1,8 +1,41 @@
 ---
-import ArticleContent from '../components/ArticleContent.jsx';
-import ArticleEditor from '../components/ArticleEditor.jsx';
+import Prose from '../components/Prose.astro';
+import { getEntry, render } from 'astro:content';
+
+import '../styles/markdown.css'
+
 const { id } = Astro.props;
+
+const entry = await getEntry('blog', id);
+if (!entry) {
+  throw new Error(`Article with id "${id}" not found.`);
+}
+const { Content } = await render(entry);
 ---
 
-<!-- <ArticleContent id={id} client:load /> -->
- <ArticleEditor id={id} client:load />
+<article id="article-content">
+  <!-- meta -->
+  <!-- <h1 id="article-title">{entry.data.title}</h1> -->
+  <p id="article-date">{entry.data.date}</p>
+  {entry.data.updatedAt && <p id="article-updated-at">Updated at: {entry.data.updatedAt}</p>}
+  <!-- content -->
+  <Prose>
+    <Content />
+  </Prose>
+</article>
+
+<!-- 
+
+---
+import ArticleContent from '../components/ArticleContent.jsx';
+import ArticleEditor from '../components/ArticleEditor.jsx';
+const { id, isEdit } = Astro.props;
+---
+
+{isEdit ? (
+  <ArticleEditor id={id} client:load />
+) : (
+  <ArticleContent id={id} client:load />
+)} 
+
+-->

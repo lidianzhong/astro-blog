@@ -5,8 +5,6 @@ import ArticleLayout from '../../../layouts/ArticleLayout.astro';
 import CategorySidebarLayout from '../../../layouts/CategorySidebarLayout.astro';
 import MainLayout from '../../../layouts/MainLayout.astro';
 
-import '../../../styles/category-page.css';
-
 const { category, slug } = Astro.params;
 
 export async function getStaticPaths() {
@@ -19,6 +17,6 @@ export async function getStaticPaths() {
 ---
 
 <MainLayout>
-  <CategorySidebarLayout category={category} />
-  <ArticleLayout id={`${category}/${slug}`} edit={Astro.url.searchParams.get('edit') === '1'} />
+  <CategorySidebarLayout category={category} transition:persist/> <!-- TODO: transition need to be fixed -->
+  <ArticleLayout id={`${category}/${slug}`} isEdit={false} transition:animate="none"/> <!-- TODO: transition need to be fixed -->
 </MainLayout>

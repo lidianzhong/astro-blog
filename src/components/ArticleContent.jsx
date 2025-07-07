@@ -1,10 +1,18 @@
 import { marked } from 'marked';
 import { useEffect, useState } from 'react';
 
-import '../styles/markdown.css';
-
 const CACHE_PREFIX = 'article_cache_';
 const CACHE_EXPIRE = 5 * 60 * 1000; // 5分钟
+
+import hljs from 'highlight.js';
+
+marked.setOptions({
+  highlight: function(code, lang) {
+    const language = hljs.getLanguage(lang) ? lang : 'plaintext';
+    return hljs.highlight(code, { language }).value;
+  }
+});
+
 
 function getCache(id) {
   try {
