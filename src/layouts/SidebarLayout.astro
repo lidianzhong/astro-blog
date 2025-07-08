@@ -1,9 +1,11 @@
 ---
 import CategorySidebar from "../components/CategorySidebar.astro";
 
+import "../styles/sitebar.css";
+
 const { category } = Astro.props;
 ---
 
-<aside id="site-sidebar">
+<aside id="site-sidebar" transition:persist-props>
   <CategorySidebar category={category}/>
 </aside>

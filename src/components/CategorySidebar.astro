@@ -2,6 +2,7 @@
 import { getCollection } from 'astro:content';
 
 const { category } = Astro.props;
+const currentPath = Astro.url.pathname;
 
 const articles = await getCollection('blog', (article) => {
   const articleCategory = article.id.split('/')[0];
@@ -14,9 +15,10 @@ const articles = await getCollection('blog', (article) => {
     {articles.map(article => {
       const [cat, slug] = article.id.split('/');
       const url = `/blog/${cat}/${slug}`;
+      const isActive = currentPath === url;
       return (
         <a
-          class="article-item"
+          class={`article-item ${isActive ? 'active' : ''}`}
           href={url}
           style="cursor: pointer; display: block; text-decoration: none;"
         >

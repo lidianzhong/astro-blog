@@ -1,0 +1,62 @@
+.articles-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.article-item {
+  padding: 0.75rem;
+  border-radius: 0.125rem;
+  transition: background-color 0.15s ease;
+}
+
+.article-item:hover {
+  background-color: #e5e7eb;
+}
+
+.article-item.active {
+  background-color: #e5e7eb;
+}
+
+.article-item.active h3 {
+  font-weight: 700;
+}
+
+.article-item h3 {
+  margin: 0 0 0.25rem 0;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #374151;
+  line-height: 1.3;
+}
+
+.article-item .article-date {
+  margin: 0;
+  font-size: 0.85rem;
+  color: #9ca3af;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  #site-sidebar {
+    display: none;
+  }
+}
+
+/* 滚动条样式 */
+#site-sidebar::-webkit-scrollbar {
+  width: 12px;
+}
+
+#site-sidebar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+#site-sidebar::-webkit-scrollbar-thumb {
+  background: #d1d5db;
+  border-radius: 3px;
+}
+
+#site-sidebar::-webkit-scrollbar-thumb:hover {
+  background: #9ca3af;
+}

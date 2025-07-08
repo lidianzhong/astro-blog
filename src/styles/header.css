@@ -1,6 +1,7 @@
 header {
+    --tw-bg-opacity: 1;
     background-color: #e3f2fd;
-    border-bottom: 1px solid #f9fafb;
+    border-bottom: 1px solid #e3f2fd;
     padding: 0.25rem 0;
 }
 

@@ -12,17 +12,18 @@ if (!entry) {
 }
 const { Content } = await render(entry);
 ---
-
-<article id="site-content" class="md:ml-[var(--side-bar-width)]">
-  <!-- meta -->
-  <!-- <h1 id="article-title">{entry.data.title}</h1> -->
-  <p id="article-date">{entry.data.date}</p>
-  {entry.data.updatedAt && <p id="article-updated-at">Updated at: {entry.data.updatedAt}</p>}
-  <!-- content -->
-  <Prose>
-    <Content />
-  </Prose>
-</article>
+<div class="ml-6 md:ml-8">
+  <article id="site-content" class="md:ml-[calc(max(0rem,calc(50%-768px))+var(--side-bar-width))]">
+    <!-- meta -->
+    <!-- <h1 id="article-title">{entry.data.title}</h1> -->
+    <p id="article-date">{entry.data.date}</p>
+    {entry.data.updatedAt && <p id="article-updated-at">Updated at: {entry.data.updatedAt}</p>}
+    <!-- content -->
+    <Prose>
+      <Content />
+    </Prose>
+  </article>
+</div>
 
 <!-- 
 
