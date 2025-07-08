@@ -1,0 +1,9 @@
+---
+import CategorySidebar from "../components/CategorySidebar.astro";
+
+const { category } = Astro.props;
+---
+
+<aside id="site-sidebar">
+  <CategorySidebar category={category}/>
+</aside>

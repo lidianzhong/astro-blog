@@ -1,6 +1,8 @@
 ---
 import Header from '../components/Header.astro';
 import { ClientRouter } from "astro:transitions"; 
+
+import '../styles/global.css';
 ---
 
 <!doctype html>
@@ -21,20 +23,3 @@ import { ClientRouter } from "astro:transitions";
 	</body>
 </html>
 
-<style>
-	html,
-	body {
-		margin: 0;
-		width: 100%;
-		height: 100%;
-	}
-
-	.main-content {
-		display: flex;
-		align-items: flex-start;
-		gap: 2rem;
-		max-width: 1200px;
-		margin: 0 auto;
-		padding: 2rem 1rem;
-	}
-</style>

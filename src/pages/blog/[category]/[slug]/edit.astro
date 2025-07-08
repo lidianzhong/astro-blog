@@ -2,7 +2,7 @@
 import { getCollection } from 'astro:content';
 
 import ArticleLayout from '../../../../layouts/ArticleLayout.astro';
-import CategorySidebarLayout from '../../../../layouts/CategorySidebarLayout.astro';
+import SidebarLayout from '../../../../layouts/SidebarLayout.astro';
 import MainLayout from '../../../../layouts/MainLayout.astro';
 
 const { category, slug } = Astro.params;
@@ -17,6 +17,6 @@ export async function getStaticPaths() {
 ---
 
 <MainLayout>
-  <CategorySidebarLayout category={category} />
+  <SidebarLayout category={category} />
   <ArticleLayout id={`${category}/${slug}`} isEdit={true} /> 
 </MainLayout>

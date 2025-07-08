@@ -1,0 +1,29 @@
+---
+import { getCollection } from 'astro:content';
+
+const { category } = Astro.props;
+
+const articles = await getCollection('blog', (article) => {
+  const articleCategory = article.id.split('/')[0];
+  return articleCategory === category;
+});
+---
+
+<div class="category-sidebar">
+  <div class="articles-list">
+    {articles.map(article => {
+      const [cat, slug] = article.id.split('/');
+      const url = `/blog/${cat}/${slug}`;
+      return (
+        <a
+          class="article-item"
+          href={url}
+          style="cursor: pointer; display: block; text-decoration: none;"
+        >
+          <h3>{article.data.title}</h3>
+          <p class="article-date">{article.data.date.toLocaleDateString()}</p>
+        </a>
+      );
+    })}
+  </div>
+</div>
