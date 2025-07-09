@@ -1,31 +1,30 @@
-# 第一个Java程序
+# 第一个C++程序
 
-我们来编写第一个Java程序。
+我们来编写第一个C++程序。
 
 打开文本编辑器，输入以下代码：
 
-```java
-public class Hello {
-    public static void main(String[] args) {
-        System.out.println("Hello, world!");
-    }
+```cpp
+#include <iostream>
+
+int main() {
+    std::cout << "Hello, world!" << std::endl;
+    return 0;
 }
 ```
 
-在一个Java程序中，你总能找到一个类似：
+在一个C++程序中，你总能找到一个类似：
 
-```java
-public class Hello {
+```cpp
+int main() {
     ...
 }
 ```
 
-的定义，这个定义被称为class（类），这里的类名是`Hello`，大小写敏感，`class`用来定义一个类，`public`表示这个类是公开的，`public`、`class`都是Java的关键字，必须小写，`Hello`是类的名字，按照习惯，首字母`H`要大写。而花括号`{}`中间则是类的定义。
+的定义，这个定义被称为主函数（main function），程序从这里开始执行。`int`表示主函数返回一个整数，`main`是函数名，圆括号`()`中可以包含参数，这里暂时为空。花括号`{}`中间则是主函数的具体实现。
 
-注意到类的定义中，我们定义了一个名为`main`的方法：
+注意到主函数中，我们使用了如下语句输出内容：
 
-```java
-public static void main(String[] args) {
-    ...
-}
+```cpp
+std::cout << "Hello, world!" << std::endl;
 ```

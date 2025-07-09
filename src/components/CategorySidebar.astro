@@ -11,7 +11,8 @@ const articles = await getCollection('blog', (article) => {
 
 // 从文章内容中提取第一个 # 标题
 function extractFirstHeading(content: string) {
-  const headingMatch = content.match(/^#\s+(.+)$/m);
+  const cleaned = content.replace(/^---[\s\S]*?---\s*/, '');
+  const headingMatch = cleaned.match(/^#\s+(.+)$/m);
   return headingMatch ? headingMatch[1] : 'Untitled';
 }
 

@@ -1,7 +1,7 @@
 header {
     --tw-bg-opacity: 1;
-    background-color: #e3f2fd;
-    border-bottom: 1px solid #e3f2fd;
+    background-color: var(--color-bg-secondary);
+    border-bottom: 1px solid var(--color-border);
     padding: 0.25rem 0;
 }
 
@@ -43,19 +43,19 @@ h1 {
 
 h1 a {
     text-decoration: none;
-    color: #333;
+    color: var(--color-text-primary);
     display: flex;
     align-items: center;
 }
 
 .nav-right a {
     text-decoration: none;
-    color: rgba(0,0,0,.9);
+    color: var(--color-text-primary);
     line-height: 1;
 }
 
 .nav-right a:hover {
-    color: #333;
+    color: var(--color-text-secondary);
 }
 
 .categories-dropdown {
@@ -64,15 +64,15 @@ h1 a {
 }
 
 .dropdown-btn {
-  background-color: #fff;
-  border: 1px solid #ddd;
+  background-color: var(--color-bg-primary);
+  border: 1px solid var(--color-border);
   padding: 0.5rem 0.8rem 0.5rem 1.2rem;
   border-radius: 4px;
   font-size: 1rem;
-  color: #666;
+  color: var(--color-text-secondary);
   cursor: pointer;
   min-width: 200px;
-  transition: border-color 0.2s ease;
+  transition: border-color 0.2s ease, background-color 0.3s ease, color 0.3s ease;
   box-sizing: border-box;
   display: flex;
   align-items: center;
@@ -92,8 +92,8 @@ h1 a {
     margin-left: 0.3em;
     width: 0.36em;
     height: 0.36em;
-    border-left: 1.5px solid #444;
-    border-bottom: 1.5px solid #444;
+    border-left: 1.5px solid var(--color-text-secondary);
+    border-bottom: 1.5px solid var(--color-text-secondary);
     transform: rotate(-45deg);
     vertical-align: middle;
 }
@@ -113,7 +113,7 @@ h1 a {
   position: absolute;
   left: 0;
   top: 110%;
-  background: #fff;
+  background: var(--color-bg-primary);
   border: 1px solid #ddd;
   /* border-radius: 4px; */
   min-width: 200px;

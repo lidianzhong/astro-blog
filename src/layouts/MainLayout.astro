@@ -16,6 +16,36 @@ import '../styles/global.css';
         <meta name="generator" content={Astro.generator} />
         <title>Astro Basics</title>
         <ClientRouter />
+        <script is:inline>
+            // 立即执行的主题初始化脚本，避免闪烁
+            (function() {
+                function initTheme() {
+                    const savedTheme = localStorage.getItem('theme');
+                    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                    
+                    if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+                        document.documentElement.classList.add('dark');
+                    } else {
+                        document.documentElement.classList.remove('dark');
+                    }
+                }
+
+                // 立即初始化
+                initTheme();
+                
+                // 监听系统主题变化
+                window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+                    if (!localStorage.getItem('theme')) {
+                        document.documentElement.classList.toggle('dark', e.matches);
+                    }
+                });
+                
+                // 当导航完成后重新初始化主题
+                document.addEventListener('astro:page-load', initTheme);
+                document.addEventListener('astro:after-swap', initTheme);
+            })();
+        </script>
+        
     </head>
     <body>
         <slot name="header"/>

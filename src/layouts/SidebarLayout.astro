@@ -3,10 +3,14 @@ import CategorySidebar from "../components/CategorySidebar.astro";
 
 import "../styles/sidebar.css";
 
+import categoryToDisplayName from "../content.config";
+
 const { category } = Astro.props;
 ---
 
 <aside id="site-sidebar">
-  <h1 class="category-title" style="font-size: 1.5rem; margin-left: 0rem; margin-bottom: 1rem;">C++</h2>
+  <h1 class="category-title" style="font-size: 1.5rem; margin-left: 0rem; margin-bottom: 1rem; font-weight: 1000px;">
+    <b>{categoryToDisplayName[category] ?? category}</b>
+  </h1>
   <CategorySidebar category={category}/>
 </aside>

@@ -174,7 +174,9 @@ body {
   /* 1 */
   line-height: inherit;
   /* 2 */
-  background-color: rgb(249 250 251 / var(--tw-bg-opacity, 1));
+  background-color: var(--color-bg-primary);
+  color: var(--color-text-primary);
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 /*
@@ -220,8 +222,8 @@ Reset links to optimize for opt-in styling instead of opt-out.
 */
 
 a {
-  color: inherit;
-  text-decoration: inherit;
+  color: #2c67e8;
+  text-decoration: underline;
 }
 
 /*
@@ -912,6 +914,32 @@ video {
   --footer-bar-height: 59px;
   --side-bar-width: 340px;
   --blog-info-width: 260px;
+
+  /* 浅色模式变量 */
+  --color-bg-primary: rgb(249 250 251);
+  --color-bg-secondary: #e3f2fd;
+  --color-bg-accent: #f3f4f6;
+  --color-bg-hover: #e3f2fd;
+  --color-text-primary: #333;
+  --color-text-secondary: #666;
+  --color-text-muted: #6b7280;
+  --color-border: #e5e7eb;
+  --color-link: rgb(2 132 199);
+  --color-link-hover: rgb(14 165 233);
+}
+
+:root.dark {
+  /* 深色模式变量 */
+  --color-bg-primary: #111827;
+  --color-bg-secondary: #111827;
+  --color-bg-accent: #0e192d;
+  --color-bg-hover: #23272f;
+  --color-text-primary: #e0e0e0;
+  --color-text-secondary: #a0a0a0;
+  --color-text-muted: #909090;
+  --color-border: #4b5563;
+  --color-link: rgb(56 189 248);
+  --color-link-hover: rgb(125 211 252);
 }
 
 html {
@@ -998,5 +1026,5 @@ html {
   /* padding-top: 3rem; */
   padding-bottom: 1rem;
   --tw-text-opacity: 1;
-  color: rgb(31 41 55 / var(--tw-text-opacity, 1)); /* 深灰色 */
+  color: var(--color-text-primary, rgb(51 51 51 / var(--tw-text-opacity, 1)));
 }

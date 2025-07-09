@@ -10,7 +10,7 @@
   /* 2 */
   border-style: solid;
   /* 2 */
-  border-color: #e5e7eb;
+  border-color: var(--color-border);
   /* 2 */
 }
 
@@ -31,6 +31,7 @@ pre {
   font-size: 1.8rem;
   line-height: 2.5rem;
   font-weight: 600;
+  color: var(--color-text-primary);
 }
 
 #site-content h2 {
@@ -39,6 +40,7 @@ pre {
   font-size: 1.875rem;
   line-height: 2.25rem;
   font-weight: 500;
+  color: var(--color-text-primary);
 }
 
 #site-content h3 {
@@ -47,6 +49,7 @@ pre {
   font-size: 1.5rem;
   line-height: 2rem;
   font-weight: 500;
+  color: var(--color-text-primary);
 }
 
 #site-content h4 {
@@ -55,6 +58,7 @@ pre {
   font-size: 1.25rem;
   line-height: 1.75rem;
   font-weight: 500;
+  color: var(--color-text-primary);
 }
 
 #site-content h5 {
@@ -63,6 +67,7 @@ pre {
   font-size: 1.125rem;
   line-height: 1.75rem;
   font-weight: 500;
+  color: var(--color-text-primary);
 }
 
 #site-content h6 {
@@ -71,12 +76,14 @@ pre {
   font-size: 1rem;
   line-height: 1.5rem;
   font-weight: 500;
+  color: var(--color-text-primary);
 }
 
 #site-content p {
   margin-top: 1rem;
   margin-bottom: 1rem;
   line-height: 1.75rem;
+  color: var(--color-text-primary);
 }
 
 #site-content a[icon="external"]:after {
@@ -88,12 +95,12 @@ pre {
   content: var(--tw-content);
   /* change a.text-color-xxx to bg-color-xxx */
   --tw-bg-opacity: 1;
-  background-color: rgb(2 132 199 / var(--tw-bg-opacity, 1));
+  background-color: var(--color-link);
 }
 
 #site-content a[icon="external"]:hover:after {
   --tw-bg-opacity: 1;
-  background-color: rgb(14 165 233 / var(--tw-bg-opacity, 1));
+  background-color: var(--color-link-hover);
 }
 
 #site-content a[icon="external"]:is(.dark *):after {
@@ -288,11 +295,10 @@ pre {
   white-space: pre;
   border-radius: 0.25rem;
   border-width: 1px;
-  --tw-border-opacity: 1;
-  border-color: rgb(209 213 219 / var(--tw-border-opacity, 1));
-  --tw-bg-opacity: 1;
-  background-color: rgb(243 244 246 / var(--tw-bg-opacity, 1)) !important;
+  border-color: var(--color-border);
+  background-color: var(--color-bg-accent) !important;
   padding: 0.5rem;
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
 }
 
 #site-content pre:is(.dark *) {
@@ -300,4 +306,20 @@ pre {
   border-color: rgb(75 85 99 / var(--tw-border-opacity, 1));
   --tw-bg-opacity: 1;
   background-color: rgb(31 41 55 / var(--tw-bg-opacity, 1));
+}
+
+/* 行内代码样式 */
+#site-content :not(pre)>code {
+  margin-left: 0.25rem;
+  margin-right: 0.25rem;
+  border-radius: 0.25rem;
+  background-color: var(--color-bg-accent);
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  color: var(--color-text-primary);
+  transition: background-color 0.3s ease, color 0.3s ease;
 }

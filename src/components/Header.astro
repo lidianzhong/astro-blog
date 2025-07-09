@@ -1,6 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import CategoryDropdown from './CategoryDropdown.astro';
+import ThemeToggle from './ThemeToggle.astro';
 
 import '../styles/header.css';
 
@@ -31,6 +32,7 @@ const dropdownLabel = category
       <h1><a href="/">BLOG</a></h1>
       <div class="nav-right">
         <CategoryDropdown categories={categories} dropdownLabel={dropdownLabel} />
+        <ThemeToggle />
       </div>
     </div>
   </nav>

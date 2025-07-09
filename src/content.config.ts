@@ -22,7 +22,9 @@ export const collections = {
 
 const categoryToDisplayName: Record<string, string> = {
   cpp: 'C++',
-  algorithm: '算法',
+  algorithm: 'Algorithm',
+  machine_learning: 'Machine Learning',
+  misc: 'Miscellaneous',
   // 这里添加其它新的分类
 };
 

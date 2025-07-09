@@ -11,27 +11,41 @@ const { categories, dropdownLabel } = Astro.props;
 ---
 
 <div class="categories-dropdown">
-  <button class="dropdown-btn" type="button">{dropdownLabel}</button>
-  <ul class="dropdown-list">
-    {categories.map((category) => (
-      <li>
-        <a href={`/blog/${category.id}`}>{category.displayName}</a>
-      </li>
-    ))}
-  </ul>
+  <details>
+    <summary class="dropdown-btn">{dropdownLabel}</summary>
+    <ul class="dropdown-list">
+      {categories.map((category) => (
+        <li>
+          <a href={`/blog/${category.id}`}>{category.displayName}</a>
+        </li>
+      ))}
+    </ul>
+  </details>
 </div>
 
-<script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const dropdown = document.querySelector('.categories-dropdown');
-    const btn = dropdown.querySelector('.dropdown-btn');
-    btn.addEventListener('click', () => {
-      dropdown.classList.toggle('open');
-    });
-    document.addEventListener('click', (e) => {
-      if (!dropdown.contains(e.target)) {
-        dropdown.classList.remove('open');
-      }
-    });
-  });
-</script>
+<style>
+.categories-dropdown details {
+  position: relative;
+  display: inline-block;
+}
+.categories-dropdown summary {
+  list-style: none;
+  cursor: pointer;
+  outline: none;
+}
+.categories-dropdown .dropdown-list {
+  position: absolute;
+  left: 0;
+  top: 110%;
+  border: 1px solid #ddd;
+  min-width: 200px;
+  z-index: 10;
+  margin: 0;
+  padding: 0.3rem 0;
+  list-style: none;
+  display: none;
+}
+.categories-dropdown details[open] .dropdown-list {
+  display: block;
+}
+</style>
