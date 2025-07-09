@@ -10,33 +10,14 @@ const entry = await getEntry('blog', id);
 if (!entry) {
   throw new Error(`Article with id "${id}" not found.`);
 }
+
 const { Content } = await render(entry);
 ---
+
 <div class="ml-6 md:ml-8">
   <article id="site-content" class="md:ml-[calc(max(0rem,calc(50%-768px))+var(--side-bar-width))]">
-    <!-- meta -->
-    <!-- <h1 id="article-title">{entry.data.title}</h1> -->
-    <p id="article-date">{entry.data.date}</p>
-    {entry.data.updatedAt && <p id="article-updated-at">Updated at: {entry.data.updatedAt}</p>}
-    <!-- content -->
     <Prose>
       <Content />
     </Prose>
   </article>
 </div>
-
-<!-- 
-
----
-import ArticleContent from '../components/ArticleContent.jsx';
-import ArticleEditor from '../components/ArticleEditor.jsx';
-const { id, isEdit } = Astro.props;
----
-
-{isEdit ? (
-  <ArticleEditor id={id} client:load />
-) : (
-  <ArticleContent id={id} client:load />
-)} 
-
--->

@@ -7,9 +7,9 @@ const blog = defineCollection({
     base: './src/content/blog',
   }),
   schema: z.object({
-    title: z.string(),
-    date: z.coerce.date(),
-    updatedAt: z.coerce.date().optional(),
+    // title: z.string(),
+    // date: z.coerce.date(),
+    // updatedAt: z.coerce.date().optional(),
   }),
 });
 

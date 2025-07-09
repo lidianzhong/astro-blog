@@ -12,7 +12,8 @@
     - [ ] 手机端适配
     - [ ] Header 样式调整
     - [ ] light/dark 支持
-- [ ] md 样式
-    - [ ] 代码高亮
+- [x] md 样式
+    - [x] 代码高亮
     - [ ] markdown 样式
-    - [ ] schema 样式
+        - [ ] 单行代码引用样式调整
+    - [x] schema 样式

@@ -8,6 +8,22 @@ const articles = await getCollection('blog', (article) => {
   const articleCategory = article.id.split('/')[0];
   return articleCategory === category;
 });
+
+// 从文章内容中提取第一个 # 标题
+function extractFirstHeading(content: string) {
+  const headingMatch = content.match(/^#\s+(.+)$/m);
+  return headingMatch ? headingMatch[1] : 'Untitled';
+}
+
+// 从 slug 中提取日期
+function extractDateFromSlug(slug: string) {
+  // 假设 slug 格式为 YYYY-MM-DD-title 或包含日期信息
+  const dateMatch = slug.match(/(\d{4}-\d{2}-\d{2})/);
+  if (dateMatch) {
+    return new Date(dateMatch[1]).toLocaleDateString();
+  }
+  return '';
+}
 ---
 
 <div class="category-sidebar">
@@ -16,14 +32,19 @@ const articles = await getCollection('blog', (article) => {
       const [cat, slug] = article.id.split('/');
       const url = `/blog/${cat}/${slug}`;
       const isActive = currentPath === url;
+      
+      // 获取文章标题和日期
+      const title = extractFirstHeading(article.body);
+      const date = extractDateFromSlug(slug);
+      
       return (
         <a
           class={`article-item ${isActive ? 'active' : ''}`}
           href={url}
           style="cursor: pointer; display: block; text-decoration: none;"
         >
-          <h3>{article.data.title}</h3>
-          <p class="article-date">{article.data.date.toLocaleDateString()}</p>
+          <h3>{title}</h3>
+          {date && <p class="article-date">{date}</p>}
         </a>
       );
     })}
