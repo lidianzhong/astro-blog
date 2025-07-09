@@ -1,11 +1,15 @@
 ---
-import '../styles/header.css';
 import { getCollection } from 'astro:content';
+import CategoryDropdown from './CategoryDropdown.astro';
 
-const displayNameMap: Record<string, string> = {
-  cpp: 'C++',
-  algorithm: '算法',
-};
+import '../styles/header.css';
+
+import categoryToDisplayName from '../content.config';
+
+export interface Props {
+  category?: string;
+}
+const { category } = Astro.props;
 
 const articles = await getCollection('blog');
 const categoriesSet = new Set(
@@ -13,25 +17,21 @@ const categoriesSet = new Set(
 );
 const categories = Array.from(categoriesSet).map(id => ({
   id,
-  displayName: (displayNameMap as Record<string, string>)[id] || id
+  displayName: (categoryToDisplayName as Record<string, string>)[id] || id
 }));
+
+const dropdownLabel = category
+  ? ((categoryToDisplayName as Record<string, string>)[category] || category)
+  : '分类 ';
 ---
 
 <header id="site-header">
-    <nav>
-        <div class="nav-container">
-            <h1><a href="/">BLOG</a></h1>
-            <div class="nav-right">
-                <div class="dropdown">
-                    <button class="dropbtn">分类</button>
-                    <div class="dropdown-content">
-                        {categories.map((category) => (
-                            <a href={`/blog/${category.id}`}>{category.displayName}</a>
-                        ))}
-                    </div>
-                </div>
-            </div>
-        </div>
-    </nav>
+  <nav>
+    <div class="nav-container">
+      <h1><a href="/">BLOG</a></h1>
+      <div class="nav-right">
+        <CategoryDropdown categories={categories} dropdownLabel={dropdownLabel} />
+      </div>
+    </div>
+  </nav>
 </header>
-

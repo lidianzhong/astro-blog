@@ -908,9 +908,9 @@ video {
 }
 
 :root {
-  --header-bar-height: 59px;
+  --header-bar-height: 54px;
   --footer-bar-height: 59px;
-  --side-bar-width: 317px;
+  --side-bar-width: 340px;
   --blog-info-width: 260px;
 }
 
@@ -925,6 +925,7 @@ html {
   max-width: 1536px;
   padding-left: 1rem;
   padding-right: 1rem;
+  padding-top: 4rem;
 }
 
 /* id element */
@@ -937,22 +938,32 @@ html {
   z-index: 10;
   height: var(--header-bar-height);
   width: 100%;
-  --tw-drop-shadow: drop-shadow(0 4px 4px rgba(0,0,0,0.1));
+  /* --tw-drop-shadow: drop-shadow(0 4px 4px rgba(0,0,0,0.1)); */
   filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
 }
 
 #site-sidebar {
   position: fixed;
-  top: var(--header-bar-height);
+  /* top: var(--header-bar-height); */
   left: max(0rem,calc(50% - 768px));
   height: calc(100vh - var(--header-bar-height));
   overflow-y: scroll;
-  border-right-width: 1px;
+  border-right-width: 1px; /* 添加右侧细线 */
   padding-top: 1rem;
   padding-bottom: 1rem;
   padding-left: 1rem;
   --tw-bg-opacity: 1;
   background-color: rgb(249 250 251 / var(--tw-bg-opacity, 1));
+  font-family: 'Segoe UI', 'Helvetica Neue', Arial, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+}
+
+/* Hide scrollbar for all browsers */
+#site-sidebar {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE和Edge */
+}
+#site-sidebar::-webkit-scrollbar {
+  display: none; /* Chrome、Safari、Opera */
 }
 
 #site-sidebar:is(.dark *) {
@@ -962,7 +973,7 @@ html {
 
 #site-sidebar {
   --tw-border-opacity: 1;
-  border-color: rgb(209 213 219 / var(--tw-border-opacity, 1));
+  border-color: rgb(229 231 235 / var(--tw-border-opacity, 1));
 }
 
 #site-sidebar:is(.dark *) {
@@ -984,7 +995,7 @@ html {
 
 #site-content {
   min-height: calc(100vh - var(--header-bar-height) - var(--footer-bar-height));
-  padding-top: 1rem;
+  /* padding-top: 3rem; */
   padding-bottom: 1rem;
   --tw-text-opacity: 1;
   color: rgb(31 41 55 / var(--tw-text-opacity, 1)); /* 深灰色 */

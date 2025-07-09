@@ -58,34 +58,84 @@ h1 a {
     color: #333;
 }
 
-.dropdown {
+.categories-dropdown {
   position: relative;
   display: inline-block;
 }
 
-.dropbtn {
-  background-color: #f0f0f0;
-  border: none;
-  padding: 10px;
-  min-width: 100px;
+.dropdown-btn {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  padding: 0.5rem 0.8rem 0.5rem 1.2rem;
+  border-radius: 4px;
+  font-size: 1rem;
+  color: #666;
   cursor: pointer;
+  min-width: 200px;
+  transition: border-color 0.2s ease;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* 让内容和箭头分开 */
+  line-height: normal;
+  vertical-align: middle;
+  box-shadow: none; /* 移除阴影 */
+  outline: none;
+  /* 让文字居中 */
+  text-align: center;
 }
 
-.dropdown-content {
+/* 更细更小的空心尖锐下箭头 */
+.dropdown-btn::after {
+    content: "";
+    display: inline-block;
+    margin-left: 0.3em;
+    width: 0.36em;
+    height: 0.36em;
+    border-left: 1.5px solid #444;
+    border-bottom: 1.5px solid #444;
+    transform: rotate(-45deg);
+    vertical-align: middle;
+}
+
+.dropdown-btn:focus {
+  border-color: #80bdff;
+  box-shadow: 0 0 0 3px #aad4fe;
+  outline: none;
+  transition: box-shadow 0.4s cubic-bezier(0.4,0,0.2,1); /* 慢慢出现阴影 */
+}
+.dropdown-btn:hover {
+  /* 不加阴影 */
+  outline: none;
+}
+.dropdown-list {
   display: none;
   position: absolute;
-  background-color: white;
-  min-width: 100px;
-  z-index: 1;
+  left: 0;
+  top: 110%;
+  background: #fff;
+  border: 1px solid #ddd;
+  /* border-radius: 4px; */
+  min-width: 200px;
+  /* box-shadow: 0 2px 8px rgba(0,0,0,0.08); */
+  z-index: 10;
+  margin: 0;
+  padding: 0.3rem 0;
+  list-style: none;
 }
-
-.dropdown-content a {
-  padding: 8px 12px;
+.categories-dropdown.open .dropdown-list {
   display: block;
+}
+.dropdown-list li a {
+  display: block;
+  padding: 0.6rem 1.0rem;
+  color: #666;
   text-decoration: none;
-  color: black;
+  font-size: 1rem;
+  border-radius: 2px;
+  transition: background 0.2s;
 }
-
-.dropdown:hover .dropdown-content {
-  display: block;
+.dropdown-list li a:hover {
+  background: #f5f5f5;
+  color: #333;
 }

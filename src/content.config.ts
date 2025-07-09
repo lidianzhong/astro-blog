@@ -16,3 +16,14 @@ const blog = defineCollection({
 export const collections = {
   blog,
 };
+
+
+// === Custom global config ===
+
+const categoryToDisplayName: Record<string, string> = {
+  cpp: 'C++',
+  algorithm: '算法',
+  // 这里添加其它新的分类
+};
+
+export default categoryToDisplayName;

@@ -2,6 +2,7 @@
 import { getCollection } from 'astro:content';
 import SidebarLayout from '../../layouts/SidebarLayout.astro';
 import MainLayout from '../../layouts/MainLayout.astro';
+import Header from '../../components/Header.astro';
 
 const { category } = Astro.params;
 
@@ -16,6 +17,9 @@ export async function getStaticPaths() {
 }
 ---
 
+
+
 <MainLayout>
+  <Header slot="header" category={category}/>
   <SidebarLayout category={category} />
 </MainLayout>

@@ -6,6 +6,7 @@ import "../styles/sidebar.css";
 const { category } = Astro.props;
 ---
 
-<aside id="site-sidebar" transition:persist-props>
+<aside id="site-sidebar">
+  <h1 class="category-title" style="font-size: 1.5rem; margin-left: 0rem; margin-bottom: 1rem;">C++</h2>
   <CategorySidebar category={category}/>
 </aside>

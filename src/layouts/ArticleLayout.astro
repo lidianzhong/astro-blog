@@ -14,7 +14,7 @@ if (!entry) {
 const { Content } = await render(entry);
 ---
 
-<article id="site-content" class="ml-6 md:ml-8 md:ml-[calc(max(0rem,calc(50%-768px))+var(--side-bar-width))]">
+<article id="site-content" class="md:ml-[calc(max(0rem,calc(50%-768px))+var(--side-bar-width)+2rem)]">
   <Prose>
     <Content />
   </Prose>

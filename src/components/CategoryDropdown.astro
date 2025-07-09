@@ -1,0 +1,37 @@
+---
+export interface Category {
+  id: string;
+  displayName: string;
+}
+export interface Props {
+  categories: Category[];
+  dropdownLabel: string;
+}
+const { categories, dropdownLabel } = Astro.props;
+---
+
+<div class="categories-dropdown">
+  <button class="dropdown-btn" type="button">{dropdownLabel}</button>
+  <ul class="dropdown-list">
+    {categories.map((category) => (
+      <li>
+        <a href={`/blog/${category.id}`}>{category.displayName}</a>
+      </li>
+    ))}
+  </ul>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const dropdown = document.querySelector('.categories-dropdown');
+    const btn = dropdown.querySelector('.dropdown-btn');
+    btn.addEventListener('click', () => {
+      dropdown.classList.toggle('open');
+    });
+    document.addEventListener('click', (e) => {
+      if (!dropdown.contains(e.target)) {
+        dropdown.classList.remove('open');
+      }
+    });
+  });
+</script>
