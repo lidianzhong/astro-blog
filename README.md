@@ -14,6 +14,5 @@
     - [ ] light/dark 支持
 - [x] md 样式
     - [x] 代码高亮
-    - [ ] markdown 样式
-        - [ ] 单行代码引用样式调整
+    - [x] markdown 样式
     - [x] schema 样式

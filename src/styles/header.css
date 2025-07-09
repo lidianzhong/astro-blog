@@ -75,7 +75,6 @@ h1 a {
   display: none;
   position: absolute;
   background-color: white;
-  box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
   min-width: 100px;
   z-index: 1;
 }

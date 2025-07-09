@@ -165,7 +165,7 @@ pre {
 #site-content li {
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;
-  line-height: 1.75rem;
+  line-height: 1.5rem;
 }
 
 #site-content li ul,
@@ -291,7 +291,7 @@ pre {
   --tw-border-opacity: 1;
   border-color: rgb(209 213 219 / var(--tw-border-opacity, 1));
   --tw-bg-opacity: 1;
-  background-color: rgb(243 244 246 / var(--tw-bg-opacity, 1));
+  background-color: rgb(243 244 246 / var(--tw-bg-opacity, 1)) !important;
   padding: 0.5rem;
 }
 

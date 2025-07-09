@@ -17,8 +17,10 @@ import '../styles/global.css';
 	</head>
 	<body>
 		<Header transition:persist />
-		<main class="main-content">
-			<slot />
+		<main>
+			<div class="site-container">
+				<slot />
+			</div>
 		</main>
 	</body>
 </html>
