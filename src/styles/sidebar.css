@@ -1,3 +1,70 @@
+/* site-siderbar */
+
+@media (max-width: 768px) {
+  #site-sidebar {
+    display: none; /* 在小屏幕上隐藏侧边栏 */
+  }
+}
+
+@media not all and (min-width: 768px) {
+  #site-sidebar {
+    display: none;
+  }
+}
+
+@media (min-width: 768px) {
+  #site-sidebar {
+    width: var(--side-bar-width);
+  }
+}
+
+#site-sidebar {
+  position: fixed;
+  /* top: var(--header-bar-height); */
+  left: max(0rem,calc(50% - 768px));
+  height: calc(100vh - var(--header-bar-height));
+  overflow-y: scroll;
+  border-right-width: 1px;  /* 添加右侧细线 */
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  padding-left: 1rem;
+  --tw-bg-opacity: 1;
+  font-family: 'Segoe UI', 'Helvetica Neue', Arial, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+}
+
+#site-sidebar {
+  scrollbar-width: none;    /* Hide scrollbar for Firefox */
+  -ms-overflow-style: none; /* Hide scrollbar for IE and Edge */
+}
+#site-sidebar::-webkit-scrollbar {
+  display: none;            /* Hide scrollbar for Chrome、Safari、Opera */
+}
+
+#site-sidebar:is(.dark *) {
+  --tw-bg-opacity: 1;
+  background-color: rgb(17 24 39 / var(--tw-bg-opacity, 1));
+}
+
+#site-sidebar {
+  --tw-border-opacity: 1;
+  border-color: rgb(229 231 235 / var(--tw-border-opacity, 1));
+}
+
+#site-sidebar:is(.dark *) {
+  --tw-border-opacity: 1;
+  border-color: rgb(75 85 99 / var(--tw-border-opacity, 1));
+}
+
+.category-sidebar-title {
+  font-size: 1.5rem;
+  margin-left: 0rem;
+  margin-bottom: 1rem;
+  font-weight: 1000;
+}
+
+/* site-siderbar */
+
+
 .articles-list {
   display: flex;
   flex-direction: column;
@@ -36,13 +103,6 @@
   margin: 0;
   font-size: 0.8rem;
   color: var(--color-text-muted);
-}
-
-/* 响应式设计 */
-@media (max-width: 768px) {
-  #site-sidebar {
-    display: none;
-  }
 }
 
 .category-sidebar {

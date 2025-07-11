@@ -1,11 +1,11 @@
 ---
 import { getCollection } from 'astro:content';
-import CategoryDropdown from './CategoryDropdown.astro';
-import ThemeToggle from './ThemeToggle.astro';
+import CategoryDropdown from '../components/CategoryDropdown.astro';
+import ThemeToggle from '../components/ThemeToggle.astro';
 
 import '../styles/header.css';
 
-import categoryToDisplayName from '../content.config';
+import categoryLabels from '../content.config';
 
 export interface Props {
   category?: string;
@@ -18,11 +18,11 @@ const categoriesSet = new Set(
 );
 const categories = Array.from(categoriesSet).map(id => ({
   id,
-  displayName: (categoryToDisplayName as Record<string, string>)[id] || id
+  displayName: (categoryLabels as Record<string, string>)[id] || id
 }));
 
 const dropdownLabel = category
-  ? ((categoryToDisplayName as Record<string, string>)[category] || category)
+  ? ((categoryLabels as Record<string, string>)[category] || category)
   : '分类 ';
 ---
 

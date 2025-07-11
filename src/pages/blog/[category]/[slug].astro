@@ -1,7 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 
-import Header from '../../../components/Header.astro';
+import HeaderLayout from '../../../layouts/HeaderLayout.astro';
 import ArticleLayout from '../../../layouts/ArticleLayout.astro';
 import SidebarLayout from '../../../layouts/SidebarLayout.astro';
 import MainLayout from '../../../layouts/MainLayout.astro';
@@ -18,7 +18,7 @@ export async function getStaticPaths() {
 ---
 
 <MainLayout>
-  <Header slot="header" category={category}/> <!-- TODO: transition need to be fixed -->
+  <HeaderLayout slot="header" category={category}/> <!-- TODO: transition need to be fixed -->
   <SidebarLayout category={category}/> <!-- TODO: transition need to be fixed -->
   <ArticleLayout id={`${category}/${slug}`} isEdit={false}/> <!-- TODO: transition need to be fixed -->
 </MainLayout>

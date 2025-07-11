@@ -20,7 +20,7 @@ export const collections = {
 
 // === Custom global config ===
 
-const categoryToDisplayName: Record<string, string> = {
+const categoryLabels: Record<string, string> = {
   cpp: 'C++',
   algorithm: 'Algorithm',
   machine_learning: 'Machine Learning',
@@ -28,4 +28,5 @@ const categoryToDisplayName: Record<string, string> = {
   // 这里添加其它新的分类
 };
 
-export default categoryToDisplayName;
+
+export default categoryLabels;

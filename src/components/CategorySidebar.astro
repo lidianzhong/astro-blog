@@ -1,7 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 
-const { category } = Astro.props;
+const { category, catrgoryLabel } = Astro.props;
 const currentPath = Astro.url.pathname;
 
 const articles = await getCollection('blog', (article) => {
@@ -28,6 +28,9 @@ function extractDateFromSlug(slug: string) {
 ---
 
 <div class="category-sidebar">
+  <h1 class="category-sidebar-title">
+    <b>{catrgoryLabel}</b>
+  </h1>
   <div class="articles-list">
     {articles.map(article => {
       const [cat, slug] = article.id.split('/');
