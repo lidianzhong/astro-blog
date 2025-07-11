@@ -1,6 +1,5 @@
 ---
-import Prose from '../components/Prose.astro';
-import { getEntry, render } from 'astro:content';
+import { getEntry } from 'astro:content';
 
 import '../styles/markdown.css'
 
@@ -11,11 +10,36 @@ if (!entry) {
   throw new Error(`Article with id "${id}" not found.`);
 }
 
-const { Content } = await render(entry);
+if (!entry.rendered?.html) {
+  throw new Error(`Article with id "${id}" has no rendered HTML.`);
+}
+
+// function getTitleByMarkdown(markdown: string): string | null {
+//   const match = markdown.match(/^#\s+(.*)/m);
+//   return match ? match[1] : null;
+// }
+
+function getDateFromArticleId(id: string): string {
+  // id format: 'cpp/2025-07-08-second-article'
+  const match = id.match(/(\d{4})-(\d{2})-(\d{2})/);
+  if (!match) return "";
+  const [, year, month, day] = match;
+  // return format: '2025年7月8日'
+  return `${year}年${parseInt(month, 10)}月${parseInt(day, 10)}日`;
+}
+
+function insertDateAfterFirstH1(html: string, dateStr: string) {
+  const dateHtml = `<p style="font-size:0.95em;color: var(--color-text-muted);margin-top:0.5em;font-family:'Segoe UI','Helvetica Neue',Arial,'PingFang SC','Hiragino Sans GB','Microsoft YaHei',sans-serif;">${dateStr}</p>`;
+  return html.replace(
+    /(<h1[^>]*>.*?<\/h1>)/i,
+    `$1${dateHtml}`
+  );
+}
+
+const articleDate = getDateFromArticleId(id); // 文章日期从 ID 中拿到
+const htmlWithDate = insertDateAfterFirstH1(entry.rendered?.html || "", articleDate); // 得到带日期的 HTML
 ---
 
 <article id="site-content" class="md:ml-[calc(max(0rem,calc(50%-768px))+var(--side-bar-width)+2rem)]">
-  <Prose>
-    <Content />
-  </Prose>
+  <div set:html={htmlWithDate} />
 </article>

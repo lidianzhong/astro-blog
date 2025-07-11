@@ -1,13 +1,72 @@
 ---
+import { getEntry, getCollection } from 'astro:content';
 import CategorySidebar from "../components/CategorySidebar.astro";
 
 import "../styles/sidebar.css";
 
-import categoryLabels from "../content.config";
+import categoryLabels, { groupLabels } from "../content.config";
 
 const { category } = Astro.props;
+
+const categoryLabel = categoryLabels[category]; // 拿到分类名
+
+const articles = await getCollection('blog', (article) => {
+  const articleCategory = article.id.split('/')[0];
+  return articleCategory === category;
+});
+
+// 接下来的步骤是将文章分组
+const groupMap: Record<string, { title: string; id: string }[]> = {};
+const noGroupArticles: { title: string; id: string }[] = [];
+
+async function getTitleByArticleId(id: string): Promise<string> {
+  const entry = await getEntry('blog', id);
+  if (!entry) {
+    throw new Error(`Article with id "${id}" not found.`);
+  }
+  const rawMarkdown = entry.body;
+  if (!rawMarkdown) {
+    throw new Error(`Article with id "${id}" has no content.`);
+  }
+
+  const match = rawMarkdown.match(/^#\s+(.*)/m);
+  return match ? match[1] : "";
+}
+
+for (const article of articles) {
+  const parts = article.id.split('/');
+  if (parts.length === 2) {
+    // (no group) id format: "[category]/2025-01-01-article-title..."
+    const title = await getTitleByArticleId(article.id) ?? article.id;
+    noGroupArticles.push({
+      title,
+      id: article.id
+    });
+  } else if (parts.length >= 3) {
+    // (grouped) id format: "[category]/[group]/2025-01-01-article-title..."
+    const groupKey = parts[1];
+    const groupLabel = groupLabels[groupKey] ?? groupKey;
+    if (!groupMap[groupLabel]) {
+      groupMap[groupLabel] = [];
+    }
+    const title = await getTitleByArticleId(article.id) ?? article.id;
+    groupMap[groupLabel].push({
+      title,
+      id: article.id
+    });
+  }
+}
+
+const groupArticles = Object.entries(groupMap).map(([groupLabel, articles]) => ({
+  groupLabel,
+  articles
+}));
 ---
 
 <aside id="site-sidebar">
-  <CategorySidebar category={category} catrgoryLabel={categoryLabels[category]}/>
+  <CategorySidebar 
+    categoryLabel={categoryLabel} 
+    groupArticles={groupArticles} 
+    noGroupArticles={noGroupArticles}
+ />
 </aside>

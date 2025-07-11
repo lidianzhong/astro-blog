@@ -28,5 +28,10 @@ const categoryLabels: Record<string, string> = {
   // 这里添加其它新的分类
 };
 
+const groupLabels: Record<string, string> = {
+  temp: '临时组',
+  // 这里添加其它新的分组标签
+}
 
 export default categoryLabels;
+export { groupLabels };

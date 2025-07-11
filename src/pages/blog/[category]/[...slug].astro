@@ -1,0 +1,45 @@
+---
+import { getCollection } from 'astro:content';
+
+import HeaderLayout from '../../../layouts/HeaderLayout.astro';
+import ArticleLayout from '../../../layouts/ArticleLayout.astro';
+import SidebarLayout from '../../../layouts/SidebarLayout.astro';
+import MainLayout from '../../../layouts/MainLayout.astro';
+import Category from '../[category].astro';
+
+const { category, slug } = Astro.params;
+console.log("category:", category, "|| slug:", slug);
+
+export async function getStaticPaths() {
+  const articles = await getCollection('blog');
+  articles.map(article => {
+    // (no group) id format: "[category]/2025-01-01-article-title..."
+    // (no group) category format: "[category]"
+    // (no group) slug format: "2025-01-01-article-title..."
+
+    // (grouped) id format: "[category]/[group]/2025-01-01-article-title..."
+    // (grouped) category format: "[category]"
+    // (grouped) slug format: "[group]/2025-01-01-article-title..."
+    const [category, ...slugParts] = article.id.split('/');
+    const slug = slugParts.join('/');
+    console.log("article id:", article.id, "|| category:", category, "|| slug:", slug);
+  });
+
+
+
+  // return [{ params: { category: 'misc', slug: 'temp/2024-04-01-git-command-overall' } }];
+  return articles.map(article => {
+    // id format: "category/slug/..."
+    const [category, ...slugParts] = article.id.split('/');
+    const slug = slugParts.join('/');
+    return { params: { category, slug } };
+  });
+}
+
+---
+
+<MainLayout>
+  <HeaderLayout slot="header" category={category}/> <!-- TODO: transition need to be fixed -->
+  <SidebarLayout category={category}/> <!-- TODO: transition need to be fixed -->
+  <ArticleLayout id={`${category}/${slug}`} isEdit={false}/> <!-- TODO: transition need to be fixed -->
+</MainLayout>

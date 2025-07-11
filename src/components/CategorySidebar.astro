@@ -1,56 +1,81 @@
 ---
-import { getCollection } from 'astro:content';
-
-const { category, catrgoryLabel } = Astro.props;
+const { categoryLabel, groupArticles = [], noGroupArticles = [] } = Astro.props;
 const currentPath = Astro.url.pathname;
-
-const articles = await getCollection('blog', (article) => {
-  const articleCategory = article.id.split('/')[0];
-  return articleCategory === category;
-});
-
-// 从文章内容中提取第一个 # 标题
-function extractFirstHeading(content: string) {
-  const cleaned = content.replace(/^---[\s\S]*?---\s*/, '');
-  const headingMatch = cleaned.match(/^#\s+(.+)$/m);
-  return headingMatch ? headingMatch[1] : 'Untitled';
-}
-
-// 从 slug 中提取日期
-function extractDateFromSlug(slug: string) {
-  // 假设 slug 格式为 YYYY-MM-DD-title 或包含日期信息
-  const dateMatch = slug.match(/(\d{4}-\d{2}-\d{2})/);
-  if (dateMatch) {
-    return new Date(dateMatch[1]).toLocaleDateString();
-  }
-  return '';
-}
 ---
 
 <div class="category-sidebar">
   <h1 class="category-sidebar-title">
-    <b>{catrgoryLabel}</b>
+    <b>{categoryLabel}</b>
   </h1>
-  <div class="articles-list">
-    {articles.map(article => {
-      const [cat, slug] = article.id.split('/');
-      const url = `/blog/${cat}/${slug}`;
-      const isActive = currentPath === url;
-      
-      // 获取文章标题和日期
-      const title = extractFirstHeading(article.body);
-      const date = extractDateFromSlug(slug);
-      
-      return (
-        <a
-          class={`article-item ${isActive ? 'active' : ''}`}
-          href={url}
-          style="cursor: pointer; display: block; text-decoration: none;"
-        >
-          <h3>{title}</h3>
-          {date && <p class="article-date">{date}</p>}
-        </a>
-      );
-    })}
-  </div>
+
+  {groupArticles.length > 0 && groupArticles.map(group => {
+    const isGroupActive = group.articles.some(article => currentPath === `/blog/${article.id}`);
+
+    return (
+      <details class="group-block" open={isGroupActive} style="border:none;padding:0;">
+        <summary class="article-item group-label"
+                 style="display:flex;align-items:center;justify-content:space-between;cursor:pointer;">
+          <span>{group.groupLabel}</span>
+          <span class="arrow"></span>
+        </summary>
+        <div class="articles-list">
+          {group.articles.map(article => {
+            const url = `/blog/${article.id}`;
+            const isActive = currentPath === url;
+            return (
+              <a
+                class={`article-item ${isActive ? 'active' : ''}`}
+                href={url}
+                style="display: flex; align-items: center; text-decoration: none;"
+              >
+                <div style="margin:0;">{article.title}</div>
+              </a>
+            );
+          })}
+        </div>
+      </details>
+    );
+  })}
+
+  {noGroupArticles.length > 0 && noGroupArticles.map(article => {
+    const url = `/blog/${article.id}`;
+    const isActive = currentPath === url;
+    return (
+      <a
+        class={`article-item ${isActive ? 'active' : ''}`}
+        href={url}
+        style="display: flex; align-items: center; text-decoration: none;"
+      >
+        <div style="margin:0;">{article.title}</div>
+      </a>
+    );
+  })}
 </div>
+
+<script>
+  document.addEventListener('astro:page-load', () => {
+    const detailsElements = document.querySelectorAll('.category-sidebar details.group-block');
+    const categoryLabel = document.querySelector('.category-sidebar-title b')?.textContent;
+
+    if (!categoryLabel) return;
+
+    detailsElements.forEach(details => {
+      const groupLabelEl = details.querySelector('summary.group-label > span:first-child');
+      if (!groupLabelEl) return;
+
+      const groupLabel = groupLabelEl.textContent;
+      const storageKey = `details-state-${categoryLabel}-${groupLabel}`;
+
+      // 页面加载时恢复状态
+      const savedState = localStorage.getItem(storageKey);
+      if (savedState !== null) {
+        details.open = savedState === 'true';
+      }
+
+      // 监听状态变化并保存
+      details.addEventListener('toggle', () => {
+        localStorage.setItem(storageKey, String(details.open));
+      });
+    });
+  });
+</script>
