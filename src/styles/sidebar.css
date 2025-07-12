@@ -85,6 +85,12 @@ details[open] .arrow {
     padding-left: 0em;
 }
 
+.group-block .articles-list:is(.dark *) {
+    border-left: 1px solid #646464;
+    margin-left: 1em;
+    padding-left: 0em;
+}
+
 .group-block .articles-list .article-item {
   margin-left: 8px;
 }

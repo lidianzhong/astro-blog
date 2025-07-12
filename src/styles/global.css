@@ -932,7 +932,7 @@ video {
   /* 深色模式变量 */
   --color-bg-primary: #111827;
   --color-bg-secondary: #111827;
-  --color-bg-accent: #0e192d;
+  --color-bg-accent: #1f2937;
   --color-bg-hover: #23272f;
   --color-text-primary: #e0e0e0;
   --color-text-secondary: #a0a0a0;
@@ -954,4 +954,15 @@ html {
   padding-left: 1rem;
   padding-right: 1rem;
   padding-top: 4rem;
+}
+
+/* src/styles/global.css */
+html.light .astro-code,
+html.light .astro-code span {
+  color: var(--shiki-light) !important;
+}
+
+html.dark .astro-code,
+html.dark .astro-code span {
+  color: var(--shiki-dark) !important;
 }

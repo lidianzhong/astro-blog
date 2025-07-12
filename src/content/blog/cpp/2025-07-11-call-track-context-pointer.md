@@ -6,6 +6,22 @@
 
 这里用了一个简单示例来演示使用栈来完成这样的追踪调用过程
 
+```java
+/**
+ * 可以用来自动创建文档的注释
+ */
+public class Hello {
+    public static void main(String[] args) {
+        // 向屏幕输出文本:
+        System.out.println("Hello, world!");
+        /* 多行注释开始
+        注释内容
+        注释结束 */
+    }
+} // class定义结束
+
+```
+
 ```cpp
 #include <iostream>
 #include <stack>

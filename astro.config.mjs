@@ -4,6 +4,9 @@ import react from '@astrojs/react';
 
 import tailwindcss from '@tailwindcss/vite';
 
+import lightTheme from './src/styles/my-shiki-theme-light.json';
+import darkTheme from './src/styles/my-shiki-theme-dark.json';
+
 export default defineConfig({
   integrations: [react()],
 
@@ -14,9 +17,9 @@ export default defineConfig({
   markdown: {
     shikiConfig: {
       themes: {
-        light: 'one-light',
-        dark: 'github-dark',
-      },
-    },
+        light: lightTheme,
+        dark: darkTheme
+      }
+    }
   },
 });

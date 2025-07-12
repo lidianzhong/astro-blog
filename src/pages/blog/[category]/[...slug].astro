@@ -8,7 +8,7 @@ import MainLayout from '../../../layouts/MainLayout.astro';
 import Category from '../[category].astro';
 
 const { category, slug } = Astro.params;
-console.log("category:", category, "|| slug:", slug);
+// console.log("category:", category, "|| slug:", slug);
 
 export async function getStaticPaths() {
   const articles = await getCollection('blog');
@@ -22,7 +22,7 @@ export async function getStaticPaths() {
     // (grouped) slug format: "[group]/2025-01-01-article-title..."
     const [category, ...slugParts] = article.id.split('/');
     const slug = slugParts.join('/');
-    console.log("article id:", article.id, "|| category:", category, "|| slug:", slug);
+    // console.log("article id:", article.id, "|| category:", category, "|| slug:", slug);
   });
 
 
