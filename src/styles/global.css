@@ -920,12 +920,13 @@ video {
   --color-bg-secondary: #e3f2fd;
   --color-bg-accent: #f3f4f6;
   --color-bg-hover: #e3f2fd;
+  --color-bg-card: rgb(249 250 251);
   --color-text-primary: #333;
   --color-text-secondary: #666;
   --color-text-muted: #6b7280;
   --color-border: #e5e7eb;
-  --color-link: rgb(2 132 199);
-  --color-link-hover: rgb(14 165 233);
+  --color-link: #0065B3;
+  --color-link-hover: rgb(10, 99, 139);
 }
 
 :root.dark {
@@ -934,12 +935,13 @@ video {
   --color-bg-secondary: #111827;
   --color-bg-accent: #1f2937;
   --color-bg-hover: #23272f;
+  --color-bg-card: #1f2937;
   --color-text-primary: #e0e0e0;
   --color-text-secondary: #a0a0a0;
   --color-text-muted: #909090;
   --color-border: #4b5563;
   --color-link: rgb(56 189 248);
-  --color-link-hover: rgb(125 211 252);
+  --color-link-hover: rgb(18, 106, 215);
 }
 
 html {

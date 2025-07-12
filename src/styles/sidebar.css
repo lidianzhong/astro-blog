@@ -12,9 +12,15 @@
   }
 }
 
-@media (min-width: 768px) {
+@media (max-width: 768px) {
   #site-sidebar {
-    width: var(--side-bar-width);
+    display: none; /* 在小屏幕上默认隐藏侧边栏 */
+    transition: transform 0.3s ease; /* 添加过渡效果 */
+    transform: translateX(-100%); /* 默认位置在屏幕外 */
+  }
+  
+  #site-sidebar.active {
+    transform: translateX(0); /* 激活时移入屏幕 */
   }
 }
 
@@ -86,7 +92,7 @@ details[open] .arrow {
 }
 
 .group-block .articles-list:is(.dark *) {
-    border-left: 1px solid #646464;
+    border-left: 1px solid #555555;
     margin-left: 1em;
     padding-left: 0em;
 }

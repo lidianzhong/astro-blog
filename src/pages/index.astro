@@ -1,15 +1,213 @@
 ---
 import HeaderLayout from '../layouts/HeaderLayout.astro';
 import MainLayout from '../layouts/MainLayout.astro';
+import { getCollection, getEntry } from 'astro:content';
+import categoryLabels from "../content.config";
+
+// 获取文章真实标题的函数
+async function getTitleByArticleId(id: string): Promise<string> {
+  try {
+    const entry = await getEntry('blog', id);
+    if (!entry) {
+      return "";
+    }
+    const rawMarkdown = entry.body;
+    if (!rawMarkdown) {
+      return "";
+    }
+
+    const match = rawMarkdown.match(/^#\s+(.*)/m);
+    return match ? match[1] : "";
+  } catch (error) {
+    console.error(`Error getting title for article ${id}:`, error);
+    return "";
+  }
+}
+
+// 获取所有文章
+const allArticles = await getCollection('blog');
+
+// 按分类分组文章
+const articlesByCategory = {};
+for (const article of allArticles) {
+  const category = article.id.split('/')[0];
+  
+  if (!articlesByCategory[category]) {
+    articlesByCategory[category] = [];
+  }
+  
+  // 获取文章标题（优先从Markdown内容中获取，然后是元数据，最后从文件名解析）
+  let title = await getTitleByArticleId(article.id);
+  
+  if (!title) {
+    title = article.data.title;
+    if (!title) {
+      // 从文件名提取标题
+      const fileName = article.id.split('/').pop();
+      title = fileName.replace(/^\d{4}-\d{2}-\d{2}-/, '').replace(/-/g, ' ');
+    }
+  }
+  
+  articlesByCategory[category].push({
+    title,
+    id: article.id,
+    slug: article.id.split('/').slice(1).join('/')
+  });
+}
+
+// 获取分类及其标签名
+const categories = Object.keys(articlesByCategory).map(category => ({
+  id: category,
+  label: categoryLabels[category] || category,
+  articles: articlesByCategory[category] // 显示该分类下的所有文章
+}));
 ---
 
 <MainLayout>
     <HeaderLayout slot="header"/>
     <main>
         <div class="site-container">
-        <h1>Welcome to My Astro Blog</h1>
-        <p>This is a simple blog built with Astro.</p>
-        <p>Explore the articles and learn more about various topics!</p>
+            <section class="category-cards">
+                <h2>文章</h2>
+                <div class="cards-grid">
+                    {categories.map(category => (
+                        <div class="category-card">
+                            <h3 class="card-title">{category.label}</h3>
+                            <ul class="article-list">
+                                {category.articles.map(article => (
+                                    <li>
+                                        <a href={`/blog/${category.id}/${article.slug}`} class="article-link">
+                                            {article.title}
+                                        </a>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                    ))}
+                </div>
+            </section>
+
+            <section class="about-section">
+                <h2>关于</h2>
+                <p>基于 <a href="https://astro.build/" target="_blank" rel="noopener">Astro</a> 构建的个人博客</p>
+            </section>
         </div>
     </main>
 </MainLayout>
+
+
+<style>
+    .site-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 2rem;
+    }
+    
+    section {
+        margin-bottom: 4rem;
+    }
+    
+    h2 {
+        font-size: 1.8rem;
+        margin-bottom: 1.5rem;
+        position: relative;
+        padding-bottom: 0.5rem;
+    }
+    
+    h2::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 60px;
+        height: 3px;
+        background-color: #4a6cf7;
+    }
+    
+    .cards-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 2rem;
+    }
+    
+    .category-card {
+        background-color: var(--color-bg-card);
+        padding: 1.5rem;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.06), 0 0 4px rgba(0, 0, 0, 0.06);
+        transition: box-shadow 0.3s ease;
+        border-radius: 2px;
+        min-height: 200px;
+    }
+    
+    :is(.dark) .category-card {
+        background-color: #1f2937;
+        box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2);
+    }
+    
+    .category-card:hover {
+        /* box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12); */
+    }
+    
+    .card-title {
+        font-size: 16px;
+        margin-bottom: 1rem;
+        /* padding-bottom: 0.5rem; */
+        color: var(--color-text-primary);
+        font-weight: bold;
+    }
+    
+    .article-list {
+        list-style-type: none;
+        padding: 0;
+        padding-left: 0.5rem;
+        margin: 0;
+    }
+    
+    .article-list li {
+        margin-bottom: 0.4rem;
+    }
+    
+    .article-link {
+        color: var(--color-link); /* 设置链接颜色为0065B3 */
+        text-decoration: none;
+        display: block;
+        /* padding: 0.2rem 0; */
+        font-size: 14px; /* 设置文章链接大小为14px */
+        /* transition: all 0.2s ease; */
+    }
+    
+
+    .article-link:hover {
+        text-decoration: underline; /* 鼠标经过时添加下划线 */
+        color: var(--color-link-hover); /* 鼠标经过时改变颜色 */
+    }
+    
+    
+    .about-section {
+        margin-bottom: 3rem;
+    }
+    
+    .about-section p {
+        line-height: 1.6;
+        margin-bottom: 0;
+    }
+    
+    :is(.dark) .about-section p,
+    :is(.dark) .about-section a {
+        color: #e2e8f0;
+    }
+    
+    :is(.dark) .about-section a {
+        color: #60a5fa;
+    }
+    
+    :is(.dark) .about-section a:hover {
+        color: #93c5fd;
+    }
+    
+    @media (max-width: 768px) {
+        .cards-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>

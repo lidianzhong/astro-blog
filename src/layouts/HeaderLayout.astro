@@ -29,7 +29,17 @@ const dropdownLabel = category
 <header id="site-header">
   <nav>
     <div class="nav-container">
-      <h1><a href="/">BLOG</a></h1>
+      <!-- 添加移动端菜单按钮 -->
+      <button class="mobile-menu-btn" id="toggleSidebar" aria-label="打开侧边栏">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+        </svg>
+      </button>
+      
+      <h1 style="font-size: 1.2rem; font-family: 'Lobster', 'Segoe Script', 'Brush Script MT', cursive, 'Segoe UI', 'Helvetica Neue', Arial, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif; letter-spacing: 2px; text-shadow: 2px 2px 6px rgba(0,0,0,0.15);">
+        <a href="/" style="text-decoration: none; color: var(--color-text-primary); padding: 0.8rem;">Dawn Journey</a>
+      </h1>
+      <link href="https://fonts.googleapis.com/css?family=Lobster&display=swap" rel="stylesheet">
       <div class="nav-right">
         <CategoryDropdown categories={categories} dropdownLabel={dropdownLabel} />
         <ThemeToggle />
@@ -38,6 +48,9 @@ const dropdownLabel = category
   </nav>
 </header>
 
+<!-- 添加侧边栏遮罩层 -->
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
 <style>
   #site-header {
     position: fixed;
@@ -45,5 +58,28 @@ const dropdownLabel = category
     left: 0;
     width: 100%;
     z-index: 1000; /* 确保 header 显示在其他元素上方 */
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08); /* 添加下阴影 */
   }
 </style>
+
+<script>
+  // 处理侧边栏开关逻辑
+  document.addEventListener('astro:page-load', () => {
+    const toggleBtn = document.getElementById('toggleSidebar');
+    const sidebar = document.getElementById('site-sidebar');
+    const overlay = document.getElementById('sidebarOverlay');
+    
+    if (toggleBtn && sidebar && overlay) {
+      toggleBtn.addEventListener('click', () => {
+        sidebar.classList.toggle('active');
+        overlay.classList.toggle('active');
+      });
+      
+      // 点击遮罩层关闭侧边栏
+      overlay.addEventListener('click', () => {
+        sidebar.classList.remove('active');
+        overlay.classList.remove('active');
+      });
+    }
+  });
+</script>

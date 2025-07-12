@@ -40,6 +40,6 @@ const articleDate = getDateFromArticleId(id); // 文章日期从 ID 中拿到
 const htmlWithDate = insertDateAfterFirstH1(entry.rendered?.html || "", articleDate); // 得到带日期的 HTML
 ---
 
-<article id="site-content" class="md:ml-[calc(max(0rem,calc(50%-768px))+var(--side-bar-width)+0.5rem)]">
+<article id="site-content" class="md:ml-[calc(max(0rem,calc(50%-768px))+var(--side-bar-width)+3.6rem)]">
   <div set:html={htmlWithDate} />
 </article>
