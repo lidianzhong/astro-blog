@@ -82,7 +82,7 @@ pre {
 #site-content p {
   margin-top: 1rem;
   margin-bottom: 1rem;
-  line-height: 1.75rem;
+  line-height: 1.9rem;
   color: var(--color-text-primary);
 }
 
@@ -126,19 +126,13 @@ pre {
 }
 
 #site-content :not(pre)>code {
-  margin-left: 0.25rem;
-  margin-right: 0.25rem;
-  border-radius: 0.25rem;
-  --tw-bg-opacity: 1;
-  background-color: rgb(229 231 235 / var(--tw-bg-opacity, 1));
-  padding-top: 0.25rem;
-  padding-bottom: 0.25rem;
-  padding-left: 0.5rem;
-  padding-right: 0.5rem;
-  font-size: 0.875rem;
-  line-height: 1.25rem;
-  --tw-text-opacity: 1;
-  color: rgb(75 85 99 / var(--tw-text-opacity, 1));
+  margin: 0 0.15rem;
+  border-radius: 0.18rem;
+  background-color: rgb(229 231 235 / 1);
+  padding: 0.15rem 0.35rem;
+  font-size: 0.95rem;
+  line-height: 1.1rem;
+  color: rgb(75 85 99 / 1);
 }
 
 #site-content :not(pre)>code:is(.dark *) {
@@ -180,6 +174,16 @@ pre {
   margin-left: 1.5rem;
   font-size: 1rem;
   line-height: 1.5rem;
+}
+
+#site-content li::marker {
+  display: inline-block;
+  margin-right: 0.5rem;
+}
+
+#site-content li p:first-child {
+  display: inline;
+  margin: 0;
 }
 
 #site-content table {
@@ -245,16 +249,17 @@ pre {
   margin-top: 1rem;
   margin-bottom: 1rem;
   border-left-width: 4px;
-  --tw-border-opacity: 1;
-  border-color: rgb(209 213 219 / var(--tw-border-opacity, 1));
-  padding-left: 0.5rem;
-  padding-right: 0.5rem;
-  font-style: italic;
+  border-color: var(--color-border);
+  padding: 0.3rem 1rem;
+  background-color: var(--color-bg-accent);
+  font-style: normal;
+  color: var(--color-text-secondary);
 }
 
 #site-content blockquote:is(.dark *) {
-  --tw-border-opacity: 1;
-  border-color: rgb(107 114 128 / var(--tw-border-opacity, 1));
+  border-color: rgb(75 85 99 / 1);
+  background-color: rgb(31 41 55 / 1);
+  color: rgb(156 163 175 / 1);
 }
 
 #site-content hr.footnotes-sep {
@@ -301,25 +306,9 @@ pre {
   transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
 }
 
-#site-content pre:is(.dark *) {
+/* #site-content pre:is(.dark *) {
   --tw-border-opacity: 1;
   border-color: rgb(75 85 99 / var(--tw-border-opacity, 1));
   --tw-bg-opacity: 1;
   background-color: rgb(31 41 55 / var(--tw-bg-opacity, 1));
-}
-
-/* 行内代码样式 */
-#site-content :not(pre)>code {
-  margin-left: 0.25rem;
-  margin-right: 0.25rem;
-  border-radius: 0.25rem;
-  background-color: var(--color-bg-accent);
-  padding-top: 0.25rem;
-  padding-bottom: 0.25rem;
-  padding-left: 0.5rem;
-  padding-right: 0.5rem;
-  font-size: 0.875rem;
-  line-height: 1.25rem;
-  color: var(--color-text-primary);
-  transition: background-color 0.3s ease, color 0.3s ease;
-}
+} */

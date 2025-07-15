@@ -232,7 +232,7 @@ Add the correct font weight in Edge and Safari.
 
 b,
 strong {
-  font-weight: bolder;
+  font-weight: 800px;
 }
 
 /*
@@ -918,6 +918,7 @@ video {
   /* 浅色模式变量 */
   --color-bg-primary: rgb(249 250 251);
   --color-bg-secondary: #e3f2fd;
+  --color-bg-code: #E5E7EB;
   --color-bg-accent: #f3f4f6;
   --color-bg-hover: #e3f2fd;
   --color-bg-card: rgb(249 250 251);
@@ -934,9 +935,9 @@ video {
   --color-bg-primary: #111827;
   --color-bg-secondary: #111827;
   --color-bg-accent: #1f2937;
-  --color-bg-hover: #23272f;
+  --color-bg-hover: #374151;
   --color-bg-card: #1f2937;
-  --color-text-primary: #e0e0e0;
+  --color-text-primary: #D1D5DB;
   --color-text-secondary: #a0a0a0;
   --color-text-muted: #909090;
   --color-border: #4b5563;
@@ -956,6 +957,7 @@ html {
   padding-left: 1rem;
   padding-right: 1rem;
   padding-top: 4rem;
+  padding-bottom: 8rem;
 }
 
 /* src/styles/global.css */

@@ -25,11 +25,12 @@ const categoryLabels: Record<string, string> = {
   algorithm: 'Algorithm',
   machine_learning: 'Machine Learning',
   misc: 'Miscellaneous',
+  operating_system: 'Operating System',
   // 这里添加其它新的分类
 };
 
 const groupLabels: Record<string, string> = {
-  temp: '临时组',
+  draft: '草稿',
   // 这里添加其它新的分组标签
 }
 

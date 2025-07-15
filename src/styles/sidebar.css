@@ -28,12 +28,13 @@
   position: fixed;
   /* top: var(--header-bar-height); */
   left: max(0rem,calc(50% - 768px));
+  width: var(--side-bar-width);
   height: calc(100vh - var(--header-bar-height));
   overflow-y: scroll;
   border-right-width: 1px;  /* 添加右侧细线 */
   padding-top: 1rem;
   padding-bottom: 1rem;
-  padding-left: 1rem;
+  /* padding-left: 1rem; */
   --tw-bg-opacity: 1;
   font-family: 'Segoe UI', 'Helvetica Neue', Arial, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
 }
@@ -63,7 +64,7 @@
 
 .category-sidebar-title {
   font-size: 1.5rem;
-  margin-left: 0rem;
+  margin-left: 1rem;
   margin-bottom: 1rem;
   font-weight: 1000;
 }
@@ -108,10 +109,14 @@ details[open] .arrow {
 }
 
 .article-item {
-  padding: 0.6rem;
+  padding: 0.6rem 1rem;
   cursor: pointer;
   transition: all 0s ease;
   border-radius: 3px;
+}
+
+a.article-item {
+  margin-left: 1.5rem;
 }
 
 .article-item:hover {

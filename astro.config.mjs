@@ -8,6 +8,7 @@ import lightTheme from './src/styles/my-shiki-theme-light.json';
 import darkTheme from './src/styles/my-shiki-theme-dark.json';
 
 export default defineConfig({
+  prefetch: true,
   integrations: [react()],
 
   vite: {

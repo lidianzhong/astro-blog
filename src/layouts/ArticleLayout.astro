@@ -1,5 +1,5 @@
 ---
-import { getEntry } from 'astro:content';
+import { getEntry, render } from 'astro:content';
 
 import '../styles/markdown.css'
 
@@ -9,15 +9,17 @@ const entry = await getEntry('blog', id);
 if (!entry) {
   throw new Error(`Article with id "${id}" not found.`);
 }
-
-if (!entry.rendered?.html) {
-  throw new Error(`Article with id "${id}" has no rendered HTML.`);
+if (!entry.body) {
+  throw new Error(`Article with id "${id}" has no content.`);
 }
 
-// function getTitleByMarkdown(markdown: string): string | null {
-//   const match = markdown.match(/^#\s+(.*)/m);
-//   return match ? match[1] : null;
-// }
+const { Content } = await render(entry);
+
+
+function getTitleByMarkdown(markdown: string): string | null {
+  const match = markdown.match(/^#\s+(.*)/m);
+  return match ? match[1] : null;
+}
 
 function getDateFromArticleId(id: string): string {
   // id format: 'cpp/2025-07-08-second-article'
@@ -28,24 +30,26 @@ function getDateFromArticleId(id: string): string {
   return `${year}年${parseInt(month, 10)}月${parseInt(day, 10)}日`;
 }
 
-function insertDateAfterFirstH1(html: string, dateStr: string) {
-  const dateHtml = `<p style="font-size:0.95em;color: var(--color-text-muted);margin-top:0.5em;font-family:'Segoe UI','Helvetica Neue',Arial,'PingFang SC','Hiragino Sans GB','Microsoft YaHei',sans-serif;">${dateStr}</p>`;
-  return html.replace(
-    /(<h1[^>]*>.*?<\/h1>)/i,
-    `$1${dateHtml}`
-  );
-}
-
+const articleTitle = getTitleByMarkdown(entry.body);
 const articleDate = getDateFromArticleId(id); // 文章日期从 ID 中拿到
-const htmlWithDate = insertDateAfterFirstH1(entry.rendered?.html || "", articleDate); // 得到带日期的 HTML
 ---
 
 <article id="site-content" class="md:ml-[calc(var(--side-bar-width))]">
-  <div class="site-content-container" set:html={htmlWithDate} />
+  <div class="site-content-container">
+    <h1 class="article-title">{articleTitle}</h1>
+    <p class="article-date">{articleDate}</p>
+    <div class="article-content">
+      <Content />
+    </div>
+  </div>
 </article>
 
 <style>
   .site-content-container {
-    padding-left: 0.6rem;
+    padding-left: 0.5rem;
+  }
+
+  .article-content :global(h1:first-child) {
+    display: none; /* 隐藏 Content 中的 h1 标题 */
   }
 </style>

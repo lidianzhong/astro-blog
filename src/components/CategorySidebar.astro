@@ -7,16 +7,15 @@ const currentPath = Astro.url.pathname;
   <h1 class="category-sidebar-title">
     <b>{categoryLabel}</b>
   </h1>
-
   {groupArticles.length > 0 && groupArticles.map(group => {
     const isGroupActive = group.articles.some(article => currentPath === `/blog/${article.id}`);
 
     return (
       <details class="group-block" open={isGroupActive} style="border:none;padding:0;">
         <summary class="article-item group-label"
-                 style="display:flex;align-items:center;justify-content:space-between;cursor:pointer;">
-          <span>{group.groupLabel}</span>
-          <span class="arrow"></span>
+                 style="display:flex;align-items:center;justify-content:flex-start;cursor:pointer; user-select: none;">
+          <span class="arrow" style="margin-right:12px;"></span>
+          <span style="margin-right:auto;">{group.groupLabel}</span>
         </summary>
         <div class="articles-list">
           {group.articles.map(article => {
@@ -26,7 +25,7 @@ const currentPath = Astro.url.pathname;
               <a
                 class={`article-item ${isActive ? 'active' : ''}`}
                 href={url}
-                style="display: flex; align-items: center; text-decoration: none;"
+                style="display: flex; align-items: center; text-decoration: none; user-select: none;"
               >
                 <div style="margin:0;">{article.title}</div>
               </a>

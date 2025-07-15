@@ -27,7 +27,7 @@ cover:
   relative: false
 ---
 
-# 因 Docker 占用太大导致磁盘空间不足
+# Docker 占用导致磁盘空间不足
 
 ### 原因分析
 

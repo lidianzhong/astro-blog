@@ -65,7 +65,9 @@ conda config --set show_channel_urls yes
 
 ### npm 源
 
-`npm config set registry https://registry.npmmirror.com`
+```shell
+npm config set registry https://registry.npmmirror.com
+```
 
 [npm 使用国内淘宝镜像（最新地址）\_npm 最新淘宝镜像-CSDN 博客](https://blog.csdn.net/chaoPerson/article/details/136121885)
 
