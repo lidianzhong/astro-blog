@@ -26,6 +26,7 @@ const categoryLabels: Record<string, string> = {
   machine_learning: 'Machine Learning',
   misc: 'Miscellaneous',
   operating_system: 'Operating System',
+  computer_network: 'Computer Network',
   // 这里添加其它新的分类
 };
 
