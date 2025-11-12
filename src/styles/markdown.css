@@ -440,3 +440,24 @@ pre {
   background-color: rgb(17 24 39);
   border: 2px solid rgb(31 41 55);
 }
+
+/* Prevent long links and inline code from creating horizontal overflow on small screens */
+/* Allow long inline content to break; keep pre blocks scrollable to preserve formatting */
+#site-content a,
+#site-content a *,
+#site-content :not(pre) > code,
+#site-content p,
+#site-content li {
+  /* Allow breaking anywhere to avoid overflow from long URLs or joined words */
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  -webkit-hyphens: auto;
+  -ms-hyphens: auto;
+  hyphens: auto;
+}
+
+/* Prefer not to wrap inside code blocks: keep pre scrollable (already set) */
+#site-content pre {
+  white-space: pre; /* ensure code blocks don't wrap; horizontal scroll instead */
+}
+
