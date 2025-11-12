@@ -11,7 +11,7 @@ const { categories, dropdownLabel } = Astro.props;
 ---
 
 <div class="categories-dropdown">
-  <details>
+  <details id="category-dropdown">
     <summary class="dropdown-btn">{dropdownLabel}</summary>
     <ul class="dropdown-list">
       {categories.map((category) => (
@@ -23,6 +23,27 @@ const { categories, dropdownLabel } = Astro.props;
   </details>
 </div>
 
+<script>
+  document.addEventListener('astro:page-load', () => {
+    const details = document.getElementById('category-dropdown') as HTMLDetailsElement;
+    
+    if (details) {
+      const handleClickOutside = (event: MouseEvent) => {
+        const target = event.target as Node;
+        
+        // If clicking outside the details element, close it
+        if (!details.contains(target) && details.open) {
+          details.open = false;
+        }
+      };
+      
+      // Remove previous listener if exists to avoid duplicates
+      document.removeEventListener('click', handleClickOutside);
+      document.addEventListener('click', handleClickOutside);
+    }
+  });
+</script>
+
 <style>
 .categories-dropdown details {
   position: relative;
@@ -32,6 +53,8 @@ const { categories, dropdownLabel } = Astro.props;
   list-style: none;
   cursor: pointer;
   outline: none;
+  color: var(--color-text-secondary);
+  font-weight: 500;
 }
 .categories-dropdown .dropdown-list {
   position: absolute;
@@ -44,6 +67,11 @@ const { categories, dropdownLabel } = Astro.props;
   padding: 0.3rem 0;
   list-style: none;
   display: none;
+  background-color: var(--color-bg-primary);
+}
+.categories-dropdown .dropdown-list a {
+  color: var(--color-text-secondary);
+  font-weight: 500;
 }
 .categories-dropdown details[open] .dropdown-list {
   display: block;

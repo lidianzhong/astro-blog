@@ -27,14 +27,15 @@
 #site-sidebar {
   position: fixed;
   /* top: var(--header-bar-height); */
-  left: max(0rem,calc(50% - 768px));
+  left: 0;
   width: var(--side-bar-width);
   height: calc(100vh - var(--header-bar-height));
   overflow-y: scroll;
   border-right-width: 1px;  /* 添加右侧细线 */
   padding-top: 1rem;
   padding-bottom: 1rem;
-  /* padding-left: 1rem; */
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
   --tw-bg-opacity: 1;
   font-family: 'Segoe UI', 'Helvetica Neue', Arial, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
 }
@@ -42,14 +43,10 @@
 #site-sidebar {
   scrollbar-width: none;    /* Hide scrollbar for Firefox */
   -ms-overflow-style: none; /* Hide scrollbar for IE and Edge */
+  background-color: var(--color-bg-primary);
 }
 #site-sidebar::-webkit-scrollbar {
   display: none;            /* Hide scrollbar for Chrome、Safari、Opera */
-}
-
-#site-sidebar:is(.dark *) {
-  --tw-bg-opacity: 1;
-  background-color: rgb(17 24 39 / var(--tw-bg-opacity, 1));
 }
 
 #site-sidebar {
@@ -111,7 +108,7 @@ details[open] .arrow {
 .article-item {
   padding: 0.6rem 1rem;
   cursor: pointer;
-  transition: all 0s ease;
+  transition: none;
   border-radius: 3px;
 }
 
@@ -122,14 +119,11 @@ a.article-item {
 .article-item:hover {
   border-radius: 3px;
   background-color: var(--color-bg-hover);
+  transition: background-color 0.15s ease;
 }
 
 .article-item.active {
   background-color: var(--color-bg-hover);
-}
-
-.article-item.active h3 {
-  /* font-weight: 700; */ /* 移除标题选中加粗 */
 }
 
 .article-item {

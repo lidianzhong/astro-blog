@@ -36,9 +36,11 @@ const articleDate = getDateFromArticleId(id); // 文章日期从 ID 中拿到
 
 <article id="site-content" class="md:ml-[calc(var(--side-bar-width))]">
   <div class="site-content-container">
-    <h1 class="article-title">{articleTitle}</h1>
-    <p class="article-date">{articleDate}</p>
-    <div class="article-content">
+    <div class="article-header">
+      <h1 class="article-title">{articleTitle}</h1>
+      <p class="article-date">{articleDate}</p>
+    </div>
+    <div class="article-content prose">
       <Content />
     </div>
   </div>
@@ -46,7 +48,48 @@ const articleDate = getDateFromArticleId(id); // 文章日期从 ID 中拿到
 
 <style>
   .site-content-container {
-    padding-left: 0.5rem;
+    max-width: calc(100vw - var(--side-bar-width) - 4rem);
+    margin: 0 auto;
+    padding: 2rem 3rem;
+    font-family: "NunitoVariable", sans-serif;
+  }
+
+  @media (max-width: 768px) {
+    .site-content-container {
+      max-width: 100%;
+      padding: 2rem 1rem;
+    }
+  }
+
+  .article-header {
+    margin-bottom: 2rem;
+  }
+
+  .article-title {
+    font-family: "NunitoVariable", sans-serif;
+    font-size: 2.5rem;
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 0.25rem;
+    color: var(--color-text-primary);
+  }
+
+  .article-date {
+    font-size: 1rem;
+    color: var(--color-text-secondary);
+    margin: 0;
+  }
+
+  .article-content {
+    font-size: 1.25rem;
+    line-height: 1.8;
+    color: var(--color-text-primary);
+    max-width: 72ch !important;
+  }
+
+  /* 覆盖 prose 的默认最大宽度限制 */
+  .article-content :global(.prose) {
+    max-width: 72ch !important;
   }
 
   .article-content :global(h1:first-child) {

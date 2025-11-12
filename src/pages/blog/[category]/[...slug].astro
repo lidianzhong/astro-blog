@@ -1,5 +1,5 @@
 ---
-import { getCollection } from 'astro:content';
+import { getCollection, getEntry } from 'astro:content';
 
 import HeaderLayout from '../../../layouts/HeaderLayout.astro';
 import ArticleLayout from '../../../layouts/ArticleLayout.astro';
@@ -36,9 +36,17 @@ export async function getStaticPaths() {
   });
 }
 
+// 获取文章标题用于页面 title
+const entry = await getEntry('blog', `${category}/${slug}`);
+function getTitleByMarkdown(markdown: string): string | null {
+  const match = markdown?.match(/^#\s+(.*)/m);
+  return match ? match[1] : null;
+}
+const articleTitle = entry?.body ? getTitleByMarkdown(entry.body) : null;
+
 ---
 
-<MainLayout>
+<MainLayout title={articleTitle || undefined}>
   <HeaderLayout slot="header" category={category}/> <!-- TODO: transition need to be fixed -->
   <SidebarLayout category={category}/> <!-- TODO: transition need to be fixed -->
   <ArticleLayout id={`${category}/${slug}`} isEdit={false}/> <!-- TODO: transition need to be fixed -->

@@ -154,7 +154,7 @@ html,
   -o-tab-size: 4;
      tab-size: 4;
   /* 3 */
-  font-family: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  font-family: "NunitoVariable", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   /* 4 */
   font-feature-settings: normal;
   /* 5 */
@@ -232,7 +232,8 @@ Add the correct font weight in Edge and Safari.
 
 b,
 strong {
-  font-weight: 800px;
+  font-weight: 700;
+  color: inherit;
 }
 
 /*
@@ -912,37 +913,37 @@ video {
 :root {
   --header-bar-height: 54px;
   --footer-bar-height: 59px;
-  --side-bar-width: 340px;
+  --side-bar-width: 360px;
   --blog-info-width: 260px;
 
-  /* 浅色模式变量 */
-  --color-bg-primary: rgb(249 250 251);
-  --color-bg-secondary: #e3f2fd;
-  --color-bg-code: #E5E7EB;
-  --color-bg-accent: #f3f4f6;
-  --color-bg-hover: #e3f2fd;
-  --color-bg-card: rgb(249 250 251);
-  --color-text-primary: #333;
-  --color-text-secondary: #666;
-  --color-text-muted: #6b7280;
-  --color-border: #e5e7eb;
-  --color-link: #0065B3;
-  --color-link-hover: rgb(10, 99, 139);
+  /* Vrite 浅色模式变量 */
+  --color-bg-primary: rgb(249 250 251);  /* gray-50 */
+  --color-bg-secondary: rgb(243 244 246);  /* gray-100 */
+  --color-bg-code: rgb(229 231 235);  /* gray-200 */
+  --color-bg-accent: rgb(243 244 246);  /* gray-100 */
+  --color-bg-hover: rgb(243 244 246);
+  --color-bg-card: rgb(255 255 255);
+  --color-text-primary: rgb(55 65 81);  /* gray-700 */
+  --color-text-secondary: rgb(107 114 128);  /* gray-500 */
+  --color-text-muted: rgb(156 163 175);  /* gray-400 */
+  --color-border: rgb(229 231 235);  /* gray-200 */
+  --color-link: rgb(59 130 246);  /* blue-500 */
+  --color-link-hover: rgb(37 99 235);  /* blue-600 */
 }
 
 :root.dark {
-  /* 深色模式变量 */
-  --color-bg-primary: #111827;
-  --color-bg-secondary: #111827;
-  --color-bg-accent: #1f2937;
-  --color-bg-hover: #374151;
-  --color-bg-card: #1f2937;
-  --color-text-primary: #D1D5DB;
-  --color-text-secondary: #a0a0a0;
-  --color-text-muted: #909090;
-  --color-border: #4b5563;
-  --color-link: rgb(56 189 248);
-  --color-link-hover: rgb(18, 106, 215);
+  /* Vrite 深色模式变量 */
+  --color-bg-primary: rgb(31 41 55);  /* gray-800 */
+  --color-bg-secondary: rgb(17 24 39);  /* gray-900 */
+  --color-bg-accent: rgb(55 65 81);  /* gray-700 */
+  --color-bg-hover: rgb(55 65 81);
+  --color-bg-card: rgb(31 41 55);
+  --color-text-primary: rgb(255, 255, 255);  /* gray-100 */
+  --color-text-secondary: rgb(156 163 175);  /* gray-400 */
+  --color-text-muted: rgb(107 114 128);  /* gray-500 */
+  --color-border: rgb(75 85 99);  /* gray-600 */
+  --color-link: rgb(96 165 250);  /* blue-400 */
+  --color-link-hover: rgb(147 197 253);  /* blue-300 */
 }
 
 html {
@@ -960,7 +961,50 @@ html {
   padding-bottom: 8rem;
 }
 
-/* src/styles/global.css */
+/* Vrite-style code blocks with Shiki */
+.astro-code {
+  font-family: "JetBrainsMonoVariable", monospace !important;
+  font-size: 0.9rem !important;
+  line-height: 1.4rem !important;
+  border-radius: 0.5rem !important;
+  padding: 0.75rem 1rem !important;
+  margin: 0.375rem 0 !important;
+  overflow-x: auto;
+  background-color: rgb(229 231 235) !important;  /* gray-200 */
+}
+
+.astro-code:is(.dark *) {
+  --un-bg-opacity: 1;
+  background-color: rgb(17 24 39 / var(--un-bg-opacity)) !important;
+}
+
+/* Scrollbar for Shiki code blocks */
+.astro-code::-webkit-scrollbar {
+  width: 0.5rem;
+  height: 0.5rem;
+  background-color: rgb(229 231 235);  /* gray-200 */
+  border-radius: 0.5rem;
+}
+
+.astro-code:is(.dark *)::-webkit-scrollbar {
+  background-color: rgb(17 24 39);  /* gray-900 */
+}
+
+.astro-code::-webkit-scrollbar-thumb {
+  background-color: rgb(249 250 251);  /* gray-50 */
+  border-radius: 0.5rem;
+  border: 2px solid rgb(229 231 235);  /* gray-200 */
+}
+
+.astro-code:is(.dark *)::-webkit-scrollbar-thumb {
+  background-color: rgb(55 65 81);  /* gray-700 */
+  border: 2px solid rgb(17 24 39);  /* gray-900 */
+}
+
+.astro-code::-webkit-scrollbar-track {
+  margin: 0.5rem;
+}
+
 html.light .astro-code,
 html.light .astro-code span {
   color: var(--shiki-light) !important;
