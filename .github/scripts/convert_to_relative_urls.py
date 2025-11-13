@@ -1,12 +1,14 @@
 #!/usr/bin/env python3
 """
 Convert absolute GitHub URLs in markdown files back to relative URLs.
+Downloads images from external CDN and saves them locally.
 Usage: python convert_to_relative_urls.py <directory>
 """
 
 import os
 import re
 import sys
+import urllib.request
 from pathlib import Path
 
 # GitHub repository configuration
@@ -21,6 +23,25 @@ EXTERNAL_CDN_BASES = [
     "https://assets.vrite.io",
     # Add more CDN base URLs here as needed
 ]
+
+# Track downloaded images to avoid duplicates
+downloaded_images = set()
+
+
+def download_image(url, local_path):
+    """Download an image from URL and save it to local_path."""
+    try:
+        # Create directory if it doesn't exist
+        os.makedirs(os.path.dirname(local_path), exist_ok=True)
+        
+        # Download the image
+        print(f"  Downloading: {url}")
+        urllib.request.urlretrieve(url, local_path)
+        print(f"  Saved to: {local_path}")
+        return True
+    except Exception as e:
+        print(f"  ✗ Error downloading {url}: {e}")
+        return False
 
 
 def convert_absolute_to_relative(content, file_path, base_content_path):
@@ -48,6 +69,15 @@ def convert_absolute_to_relative(content, file_path, base_content_path):
                 # Get markdown file name without extension
                 md_filename = os.path.basename(file_path)
                 md_name_without_ext = os.path.splitext(md_filename)[0]
+                
+                # Create the local directory path
+                image_dir = os.path.join(file_dir, md_name_without_ext)
+                local_image_path = os.path.join(image_dir, image_filename)
+                
+                # Download the image if not already downloaded
+                if full_url not in downloaded_images:
+                    if download_image(full_url, local_image_path):
+                        downloaded_images.add(full_url)
                 
                 # Convert to relative path: ./{md_file_name}/{image_filename}
                 relative_path = f"./{md_name_without_ext}/{image_filename}"
