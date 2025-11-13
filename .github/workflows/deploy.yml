@@ -4,7 +4,10 @@ on:
   push:
     branches:
       - dev
-
+  workflow_dispatch:  # Allow manual triggering
+  schedule:
+    - cron: '0 * * * *'  # every hour
+    
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
