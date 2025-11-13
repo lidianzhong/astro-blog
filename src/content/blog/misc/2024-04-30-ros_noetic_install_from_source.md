@@ -1,7 +1,3 @@
----
-
-## title: "Ubuntu 22.04 安装 ros1 noetic" published: 2024-04-30 lastmod: 2024-04-30 category: "四足机器人" tags: # 标签 - ROS description: "Ubuntu 22.04 安装 ros1 noetic 的一次失败尝试" weight: draft: false # 是否为草稿 comments: true # 本页面是否显示评论 reward: false # 打赏 mermaid: true #是否开启mermaid showToc: true # 显示目录 TocOpen: false # 自动展开目录 hidemeta: false # 是否隐藏文章的元信息，如发布日期、作者等 disableShare: true # 底部不显示分享栏 showbreadcrumbs: false #顶部显示路径 cover: image: "" #图片路径例如：posts/tech/123/123.png zoom: # 图片大小，例如填写 50% 表示原图像的一半大小 caption: "" #图片底部描述 alt: "" relative: false
-
 # Ubuntu22.04安装ros1失败记录
 
 > 最后没有成功。建议不要使用这种方式，建议使用 docker 部署 ubuntu 20.04 来完成。下文作为笔记保留。
