@@ -69,7 +69,7 @@ const VRITE_TOKEN = import.meta.env.PUBLIC_VRITE_TOKEN ?? "FHnI--Ivk2TIyhs_7eMWD
                 function getSlugMdFromPath() {
                     try {
                         // 去掉结尾的斜杠，取最后一个路径段
-                        const path = window.location.pathname.replace(/\\/+$/, '');
+                        const path = window.location.pathname.replace(/\/+$/, '');
                         const segments = path.split('/').filter(Boolean);
                         const last = segments[segments.length - 1] || '';
                         if (!last) return null;

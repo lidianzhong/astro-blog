@@ -1,14 +1,22 @@
 ---
-const { categoryLabel, groupArticles = [], noGroupArticles = [] } = Astro.props;
-const currentPath = Astro.url.pathname;
+interface ArticleItem { id: string; title: string; }
+interface ArticleGroup { groupLabel: string; articles: ArticleItem[]; }
+interface Props { categoryLabel: string; groupArticles?: ArticleGroup[]; noGroupArticles?: ArticleItem[]; }
+const { categoryLabel, groupArticles = [], noGroupArticles = [] } = Astro.props as Props;
+// 生产环境可能带末尾斜杠，统一去除用于比较
+const currentPathRaw = Astro.url.pathname;
+const currentPath = currentPathRaw.replace(/\/+$/, '') || '/';
 ---
 
 <div class="category-sidebar">
   <h1 class="category-sidebar-title">
     <b>{categoryLabel}</b>
   </h1>
-  {groupArticles.length > 0 && groupArticles.map(group => {
-    const isGroupActive = group.articles.some(article => currentPath === `/blog/${article.id}`);
+  {groupArticles.length > 0 && groupArticles.map((group: ArticleGroup) => {
+  const isGroupActive = group.articles.some((article: ArticleItem) => {
+      const url = `/blog/${article.id}`.replace(/\/+$/, '');
+      return currentPath === url;
+    });
 
     return (
       <details class="group-block" open={isGroupActive} style="border:none;padding:0;">
@@ -18,9 +26,10 @@ const currentPath = Astro.url.pathname;
           <span style="margin-right:auto;">{group.groupLabel}</span>
         </summary>
         <div class="articles-list">
-          {group.articles.map(article => {
+          {group.articles.map((article: ArticleItem) => {
             const url = `/blog/${article.id}`;
-            const isActive = currentPath === url;
+            const normalizedUrl = url.replace(/\/+$/, '');
+            const isActive = currentPath === normalizedUrl;
             return (
               <a
                 class={`article-item ${isActive ? 'active' : ''}`}
@@ -36,9 +45,10 @@ const currentPath = Astro.url.pathname;
     );
   })}
 
-  {noGroupArticles.length > 0 && noGroupArticles.map(article => {
+  {noGroupArticles.length > 0 && noGroupArticles.map((article: ArticleItem) => {
     const url = `/blog/${article.id}`;
-    const isActive = currentPath === url;
+    const normalizedUrl = url.replace(/\/+$/, '');
+    const isActive = currentPath === normalizedUrl;
     return (
       <a
         class={`article-item ${isActive ? 'active' : ''}`}
@@ -58,7 +68,8 @@ const currentPath = Astro.url.pathname;
 
     if (!categoryLabel) return;
 
-    detailsElements.forEach(details => {
+    detailsElements.forEach(d => {
+      const details = d as HTMLDetailsElement;
       const groupLabelEl = details.querySelector('summary.group-label > span:first-child');
       if (!groupLabelEl) return;
 
