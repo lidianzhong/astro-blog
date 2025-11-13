@@ -5,8 +5,8 @@ on:
     branches:
       - edit
   workflow_dispatch:  # Allow manual triggering
-  schedule:
-    - cron: '0 * * * *'  # every hour
+  # schedule:
+  #   - cron: '0 * * * *'  # every hour
 
 jobs:
   sync-to-dev:
@@ -61,3 +61,37 @@ jobs:
           else
             echo "No changes to commit"
           fi
+
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    needs: sync-to-dev
+    steps:
+      - name: Checkout dev branch (latest after sync)
+        uses: actions/checkout@v4
+        with:
+          ref: dev
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build project
+        run: npm run build
+
+      - name: Deploy to cloud server via SCP
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.REMOTE_HOST }}
+          username: ${{ secrets.REMOTE_USER }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          port: 22
+          source: "dist/*"
+          target: "/var/www/blog-site"
+          strip_components: 1
+          rm: true
