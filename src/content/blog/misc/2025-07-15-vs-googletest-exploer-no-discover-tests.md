@@ -11,6 +11,7 @@
 ```cmake
 ./googletest/include
 ./googlemock/include
+
 ```
 
 添加的源文件：
@@ -18,10 +19,8 @@
 ```cmake
 ./googletest/src/gtest-all.cc
 ./googlemock/src/gmock-all.cc
+
 ```
 
-
-
 ### 其他方法
-
 - [No test found. Make sure that installed test discoverers & executors, platform & framework version settings are appropriate and try again](https://stackoverflow.com/questions/34790339/no-test-found-make-sure-that-installed-test-discoverers-executors-platform)

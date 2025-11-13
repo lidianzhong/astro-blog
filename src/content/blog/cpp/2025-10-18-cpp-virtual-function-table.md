@@ -59,7 +59,7 @@ public:
 - 多了4个字节， `base1_1` 和 `base1_2` 的偏移都各自向后多了4个字节，说明类对象的最前面被多加了4个字节的东西。
 - `base1_1` 前面多了一个变量 `__vfptr` (常说的虚函数表 vtable 指针), 其类型为`void**`, 表示它是一个**指向指针数组的指针**，而不是 **指针数组** 
 
-![2-1](2025-10-18-cpp-virtual-function-table/3-1.png)
+![2-1](./2025-10-18-cpp-virtual-function-table/3-1.png)
 
 `__vfptr`的定义伪代码大概如下：
 
@@ -86,14 +86,14 @@ public:
 
 大小以及偏移信息如下:
 
-![3-1](2025-10-18-cpp-virtual-function-table/4-1.png)
+![3-1](./2025-10-18-cpp-virtual-function-table/4-1.png)
 
 分析：
 
 - 多了一个虚函数， 类对象大小保持和只有一个虚函数类对象大小相同。
 - `__vfptr`所指向的函数指针数组中出现了第2个元素, 其值为`Base1`类的第2个虚函数`base1_fun2()`的函数地址。
 
-![4-2](2025-10-18-cpp-virtual-function-table/4-2.png)
+![4-2](./2025-10-18-cpp-virtual-function-table/4-2.png)
 
 - 说明了`__vfptr`是一个指针, 指向一个函数指针数组（即虚函数表），多一个虚函数，只是会向虚函数表中增加一项，不会改变类对象大小
 
@@ -106,13 +106,13 @@ const void** __vfptr = __fun[0];
 
 - 一个类实例化出来的两个变量的地址肯定是不同的，但他们的 __vfptr 指向是同一个虚函数表
 
-  ![4-3](2025-10-18-cpp-virtual-function-table/4-3.png)
+  ![4-3](./2025-10-18-cpp-virtual-function-table/4-3.png)
 
 说明：**同一个类的不同实例共用同一份虚函数表, 她们都通过一个所谓的虚函数表指针`__vfptr`(定义为`void**`类型)指向该虚函数表.**
 
 - 对象内存布局
 
-  ![4-4](2025-10-18-cpp-virtual-function-table/4-4.png)
+  ![4-4](./2025-10-18-cpp-virtual-function-table/4-4.png)
 
 <br>
 
@@ -140,7 +140,7 @@ public:
 
 内存布局(定义为`Derive1 d1`):
 
-![4-2](2025-10-18-cpp-virtual-function-table/5-2.png)
+![4-2](./2025-10-18-cpp-virtual-function-table/5-2.png)
 
 分析：
 
@@ -178,14 +178,14 @@ public:
 
 虚函数覆盖下的内存布局
 
-![5-1](2025-10-18-cpp-virtual-function-table/6-1.png)
+![5-1](./2025-10-18-cpp-virtual-function-table/6-1.png)
 
 - 高亮处原先的 `Base1::base1_fun1()`, 但由于**继承类重写**了基类`Base1`的此方法, 所以现在变成了`Derive1::base1_fun1()`!
 - 此时，无论是通过`Derive1`的指针还是`Base1`的指针来调用此方法, 调用的都将是**被继承类重写后的那个方法(函数), 多态发生了!!!**
 
 - 内存布局
 
-  ![5-2](2025-10-18-cpp-virtual-function-table/6-2.png)
+  ![5-2](./2025-10-18-cpp-virtual-function-table/6-2.png)
 
 <br>
 
@@ -214,7 +214,7 @@ public:
 
 按理来说，应该添加在 __vfptr 指向的函数指针数组中，添加一条指向子类虚函数的结果，事实确实如此
 
-![7-1](2025-10-18-cpp-virtual-function-table/7-1.png)
+![7-1](./2025-10-18-cpp-virtual-function-table/7-1.png)
 
 分析：
 
@@ -222,7 +222,7 @@ public:
 
 - 内存布局应该是这样
 
-  ![7-3](2025-10-18-cpp-virtual-function-table/7-3.png)
+  ![7-3](./2025-10-18-cpp-virtual-function-table/7-3.png)
 
 <br>
 
@@ -268,7 +268,7 @@ public:
 };
 ```
 
-![8-2](2025-10-18-cpp-virtual-function-table/8-2.png)
+![8-2](./2025-10-18-cpp-virtual-function-table/8-2.png)
 
 分析：
 
@@ -276,7 +276,7 @@ public:
 
 - 内存布局（图片右上角应该是 `void* __vftable[4]`）
 
-  ![8-3](2025-10-18-cpp-virtual-function-table/8-3.png)
+  ![8-3](./2025-10-18-cpp-virtual-function-table/8-3.png)
 
 <br>
 
@@ -315,7 +315,7 @@ public:
 
 类的布局情况：
 
-![9-4](2025-10-18-cpp-virtual-function-table/9-4.png)
+![9-4](./2025-10-18-cpp-virtual-function-table/9-4.png)
 
 - 不难想象，基类有虚函数的应该有 __vfptr 虚函数表指针，基类没有虚函数的没有
 - 谁有虚函数表，谁就会放在前面
@@ -353,7 +353,7 @@ public:
 ```
 
 内存布局：
-![10-3](2025-10-18-cpp-virtual-function-table/10-3.png)
+![10-3](./2025-10-18-cpp-virtual-function-table/10-3.png)
 
 - __vfptr已经独立出来了, 不再属于`Base1`和`Base2`，并放在了前面
 

@@ -1,31 +1,3 @@
----
-title: "ptrace 软件调试"
-published: 2025-01-03T03:23:54+08:00
-lastmod: 2025-01-03T03:23:54+08:00
-keywords: 
-- 
-category: "笔记"
-tags: # 标签
-  - 操作系统
-description: "介绍 ptrace 系统调用函数是如何实现的，并简单介绍 GDB 调试原理"
-weight:
-draft: false # 是否为草稿
-comments: true # 本页面是否显示评论
-reward: false # 打赏
-mermaid: true #是否开启mermaid
-showToc: true # 显示目录
-TocOpen: false # 自动展开目录
-hidemeta: false # 是否隐藏文章的元信息，如发布日期、作者等
-disableShare: true # 底部不显示分享栏
-showbreadcrumbs: false #顶部显示路径
-cover:
-    image: "" #图片路径例如：posts/tech/123/123.png
-    zoom: # 图片大小，例如填写 50% 表示原图像的一半大小
-    caption: "" #图片底部描述
-    alt: ""
-    relative: false
----
-
 # ptrace 软件调试
 
 ### 1. 用户态和内核态
@@ -55,10 +27,10 @@ cover:
 ```c
 #include <sys/ptrace.h>       
 long ptrace(enum __ptrace_request request, pid_t pid, void *addr, void *data);
+
 ```
 
 对函数签名中的四个参数表示的含义：
-
 - request：要执行的操作类型；
 - pid：被追踪的目标进程ID；
 - addr：被监控的目标内存地址；
@@ -67,7 +39,6 @@ long ptrace(enum __ptrace_request request, pid_t pid, void *addr, void *data);
 **进程状态**
 
 在Linux系统中，进程常见的状态有下面一些：
-
 - S：Interruptible Sleeping，即可中断睡眠；
 - D：Uninterruptible Sleeping，即不可中断睡眠；
 - R：Running or Runnable，即运行状态；
@@ -79,16 +50,12 @@ long ptrace(enum __ptrace_request request, pid_t pid, void *addr, void *data);
 **Traced状态**
 
 一个进程进入Traced状态可以通过两种方式：
-
 1. tracee进程调用ptrace系统调用，并在request参数处传递PTRACE_TRACEME这个值，表示想要被tracer进程追踪。通过这种方式的进程想要进入Traced状态有两种方式：
    - 主动调用exec系列的系统调用；
    - tracer发送进入Traced状态的相关信号。
-
 2. tracer进程调用ptrace系统调用，并在request参数处传递PTRACE_ATTACH这个值，并给出tracee进程的pid，从而让tracee进程进入Traced状态。
 
-
-
-**情况一：`tracee`进程调用`ptrace`系统调用，再主动调用`exec`系列的系统调用**
+**情况一：**`tracee`**进程调用**`ptrace`**系统调用，再主动调用**`exec`**系列的系统调用**
 
 ```c
 #include <unistd.h>
@@ -112,17 +79,14 @@ int main(void){
     }
     return 0;
 }
+
 ```
 
-
-
-`fork()` 即创建了一个子进程。现在有两个进程，原先的这个进程，现在就是父进程，还有新复制的新进程，就是子进程。父进程返回的`child`值是子进程的`pid`，子进程返回的`child`值是0，所以**父进程中会进入 `else` 语句，而子进程中会进入 `child == 0` 的代码块中执行。**
+`fork()` 即创建了一个子进程。现在有两个进程，原先的这个进程，现在就是父进程，还有新复制的新进程，就是子进程。父进程返回的`child`值是子进程的`pid`，子进程返回的`child`值是0，所以**父进程中会进入 **`else`** 语句，而子进程中会进入 **`child == 0`** 的代码块中执行。**
 
 代码块中的第一行子进程调用`ptrace`系统调用后，它会告诉内核它希望被其父进程跟踪，子进程并不会进入`Traced`状态。因为，子进程只有接收到 `SIGTRAP`信号后才会进入`Traced`状态。
 
 这时候通过`execl`语句，内核会向子进程发送一个 `SIGTRAP`信号，子进程接收到 `SIGTRAP` 信号后，进入 `Traced` 状态，并暂停执行。
-
-
 
 关注父进程部分
 
@@ -151,28 +115,31 @@ int main(void){
 
     return 0;
 }
+
 ```
+
 代码分析：
 
 ```c
 wait(NULL)
+
 ```
 
 当使用了ptrace跟踪后，所有发送给被跟踪的子进程的信号(除了SIGKILL)，都会被转发给父进程。父进程会因为`wait`系统调用进入阻塞，当父进程接收到子进程的信号时，父进程才会接着运行。
 
 ```c
 ptrace(PTRACE_PEEKUSER, child, 8 * ORIG_RAX, NULL)
+
 ```
 
-父进程通过调用`ptrace`系统调用并使用`PTRACE_PEEKUSER`作为操作类型，可以**读取`tracee`进程的`USER`字段中相关偏移量位置的值。** 为什么要读取这个 USER 字段呢，因为可以通过传入 USER 字段的宏来获取寄存器值，在这里，`ORIG_RAX`这个寄存器里面存的是`系统调用号`。
+父进程通过调用`ptrace`系统调用并使用`PTRACE_PEEKUSER`作为操作类型，可以**读取**`tracee`**进程的**`USER`**字段中相关偏移量位置的值。** 为什么要读取这个 USER 字段呢，因为可以通过传入 USER 字段的宏来获取寄存器值，在这里，`ORIG_RAX`这个寄存器里面存的是`系统调用号`。
 
 ```c
 ptrace(PTRACE_CONT, child, NULL, NULL)
+
 ```
 
-父进程通过调用`ptrace`系统调用并使用`PTRACE_CONT`作为操作类型，用于**恢复处于`Traced`状态的`tracee`进程**。
-
-
+父进程通过调用`ptrace`系统调用并使用`PTRACE_CONT`作为操作类型，用于**恢复处于**`Traced`**状态的**`tracee`**进程**。
 
 ### 使用PTRACE_SYSCALL循环捕获
 
@@ -203,6 +170,7 @@ int main(int argc, char **argv){
   }
   return 0;
 }
+
 ```
 
 在之前代码的基础上，添加了`while`循环结构，将`PTRACE_SYSCALL`作为循环体中的`ptrace`系统调用类型，并且在 `WIFEXITED(status)` 状态下结束程序。
@@ -211,6 +179,7 @@ int main(int argc, char **argv){
   wait(&status);
   printf("Got signal %d\n", WSTOPSIG(status));
   if(WIFEXITED(status)) break;
+
 ```
 
 通过 wait 调用可以获得接收到的信号类型，WSTOPSIG 是拿到导致子进程暂停的信号的编号，比如编号为`5`的信号对应的是`SIGTRAP`信号
@@ -230,17 +199,17 @@ int main(int argc, char **argv){
 53) SIGRTMAX-11 54) SIGRTMAX-10 55) SIGRTMAX-9  56) SIGRTMAX-8  57) SIGRTMAX-7
 58) SIGRTMAX-6  59) SIGRTMAX-5  60) SIGRTMAX-4  61) SIGRTMAX-3  62) SIGRTMAX-2
 63) SIGRTMAX-1  64) SIGRTMAX
+
 ```
 
 WIFEXITED 用于检查子进程是否正常退出。
 
 ```c
 ptrace(PTRACE_SYSCALL, child, NULL, NULL);
+
 ```
 
 让子进程继续运行，并在每次系统调用进入和退出时暂停子进程。这样，父进程可以在每次系统调用进入和退出时对子进程进行检查和控制。
-
-
 
 ### ptrace函数的内核实现
 
@@ -290,6 +259,7 @@ ptrace的内核实现在`kernel/ptrace.c`文件中，直接看内核接口是`SY
          out:
             return ret;
 }
+
 ```
 
 #### 3. GDB 调试原理
@@ -297,7 +267,6 @@ ptrace的内核实现在`kernel/ptrace.c`文件中，直接看内核接口是`SY
 涉及到两个，GDB程序和可执行程序test，当启动GDB调试时，发生了如下的事情：
 
 系统首先会启动gdb进程，这个进程会调用系统函数fork()来创建一个子进程，这个子进程做两件事情：
-
 1. 调用系统函数ptrace(PTRACE_TRACEME，[其他参数])；
 2. 通过execc来加载、执行可执行程序test，那么test程序就在这个子进程中开始执行了。
 
@@ -311,7 +280,7 @@ ptrace系统函数是Linux内核提供的一个用于进程跟踪的系统调用
 
 **GDB 如何调试已经执行的可执行程序**
 
-之前使用的ptrace传入的参数为PTRACE_TRACEME，现在需要传入PTRACE_ATTACH，这时候是**父进程调用`ptrace(PTRACE_ATTACH,[其他参数])`**，这样gdb进程会attach(绑定)到已经执行的进程B，此时gdb进程会发送SIGSTO信号给子进程B，子进程B接收到SIGSTOP信号后，就会暂停执行进入TASK_STOPED状态，表示自己准备好被调试了。
+之前使用的ptrace传入的参数为PTRACE_TRACEME，现在需要传入PTRACE_ATTACH，这时候是**父进程调用**`ptrace(PTRACE_ATTACH,[其他参数])`，这样gdb进程会attach(绑定)到已经执行的进程B，此时gdb进程会发送SIGSTO信号给子进程B，子进程B接收到SIGSTOP信号后，就会暂停执行进入TASK_STOPED状态，表示自己准备好被调试了。
 
 ![img](./software_debugging/5ca6936da5e832d8a0d9f238e876da10.png)
 
@@ -320,18 +289,17 @@ ptrace系统函数是Linux内核提供的一个用于进程跟踪的系统调用
 **GDB如何实现断点指令**
 
 首先，设置断点指令“break 5”，此时gdb会做2件事情：
-
 1. 对第5行源码所对应的第10行（比如第5行源码所对应的第10行汇编代码）汇编代码存储到断点链表中。
 2. 在汇编代码的第10行，插入中断指令INT3，也就是说：汇编代码中的第10行被替换为INT3。
 
-然后，调试窗口执行 run 命令，汇编代码中的PC指针，执行第10行时，发现是 INT3 指令，于是**操作系统就发送一个`SIGTRAP`信号给子进程`test`**。由于发送给子进程的任何信息都会被父进程接管，gdb会首先接收到这SIGTRAP个信号，gdb发现当前汇编代码执行的是第10行，于是到断点链表中查找，发现链表中存储了第10行的代码，说明第10行被设置了断点。于是gdb又做了2个操作：
-
+然后，调试窗口执行 run 命令，汇编代码中的PC指针，执行第10行时，发现是 INT3 指令，于是**操作系统就发送一个**`SIGTRAP`**信号给子进程**`test`。由于发送给子进程的任何信息都会被父进程接管，gdb会首先接收到这SIGTRAP个信号，gdb发现当前汇编代码执行的是第10行，于是到断点链表中查找，发现链表中存储了第10行的代码，说明第10行被设置了断点。于是gdb又做了2个操作：
 1. 把汇编代码中的第10行"INT3"替换为断点链表中原来的代码。
 2. 把 PC 指针回退一步，也即是设置为指向第10 行。
 
 然后，gdb继续等待用户的调试指令，这样就实现了断点的功能。
 
-<br>
+
+
 
 参考内容：
 
@@ -340,12 +308,3 @@ ptrace系统函数是Linux内核提供的一个用于进程跟踪的系统调用
 GDB调试流程 [CSDN:用图文带你彻底弄懂GDB调试原理](https://blog.csdn.net/melody157398/article/details/113855762)
 
 ptrace源码分析 [CSDN:一文带你看透 GDB 的 实现原理 -- ptrace真香](https://blog.csdn.net/Z_Stand/article/details/108395906)
-
-
-
-
-
-
-
-
-
