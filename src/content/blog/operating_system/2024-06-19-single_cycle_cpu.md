@@ -1,4 +1,5 @@
 ---
+
 title: "单周期 CPU 流程设计解读"
 published: 2024-06-19
 lastmod: 2024-06-19
@@ -6,23 +7,7 @@ category: "笔记"
 tags: ["计组"]
 description: "介绍了 CPU 如何执行一条指令，对单周期 CPU 的流程的不同步骤进行了分析"
 
-weight: 10
-draft: false # 是否为草稿
-comments: true # 本页面是否显示评论
-reward: false # 打赏
-mermaid: true #是否开启mermaid
-showToc: true # 显示目录
-TocOpen: false # 自动展开目录
-hidemeta: false # 是否隐藏文章的元信息，如发布日期、作者等
-disableShare: true # 底部不显示分享栏
-showbreadcrumbs: false #顶部显示路径
-cover:
-  image: "" #图片路径例如：posts/tech/123/123.png
-  zoom: # 图片大小，例如填写 50% 表示原图像的一半大小
-  caption: "" #图片底部描述
-  alt: ""
-  relative: false
----
+## weight: 10 draft: false # 是否为草稿 comments: true # 本页面是否显示评论 reward: false # 打赏 mermaid: true #是否开启mermaid showToc: true # 显示目录 TocOpen: false # 自动展开目录 hidemeta: false # 是否隐藏文章的元信息，如发布日期、作者等 disableShare: true # 底部不显示分享栏 showbreadcrumbs: false #顶部显示路径 cover: image: "" #图片路径例如：posts/tech/123/123.png zoom: # 图片大小，例如填写 50% 表示原图像的一半大小 caption: "" #图片底部描述 alt: "" relative: false
 
 # 单周期 CPU 流程设计解读
 
@@ -30,33 +15,27 @@ cover:
 
 计算机程序由一条条指令及数据构成。运行的过程大致是这样的：程序一开始存储于硬盘中，当计算机要执行一条程序时，先将程序从硬盘调入内存，然后CPU从内存取出指令，开始执行。操作系统本身也是程序。
 
-往细了来说，CPU在处理指令时，一般需要经过以下几个步骤： 
+往细了来说，CPU在处理指令时，一般需要经过以下几个步骤：
 
-(1) 取指令(IF)：根据程序计数器PC中的指令地址，从存储器中取出一条指令，同时，PC根据指令字长度自动递增产生下一条指令所需要的指令地址，但遇到“地址转移”指令时，则控制器把“转移地址”送入PC，当然得到的“地址”需要做些变换才送入PC。 
+(1) 取指令(IF)：根据程序计数器PC中的指令地址，从存储器中取出一条指令，同时，PC根据指令字长度自动递增产生下一条指令所需要的指令地址，但遇到“地址转移”指令时，则控制器把“转移地址”送入PC，当然得到的“地址”需要做些变换才送入PC。
 
-(2) 指令译码(ID)：对取指令操作中得到的指令进行分析并译码，确定这条指令需要完成的操作，从而产生相应的操作控制信号，用于驱动执行状态中的各种操作。 
+(2) 指令译码(ID)：对取指令操作中得到的指令进行分析并译码，确定这条指令需要完成的操作，从而产生相应的操作控制信号，用于驱动执行状态中的各种操作。
 
-(3) 指令执行(EXE)：根据指令译码得到的操作控制信号，具体地执行指令动作，然后转移到结果写回状态。 
+(3) 指令执行(EXE)：根据指令译码得到的操作控制信号，具体地执行指令动作，然后转移到结果写回状态。
 
-(4) 存储器访问(MEM)：所有需要访问存储器的操作都将在这个步骤中执行，该步骤给出存储器的数据地址，把数据写入到存储器中数据地址所指定的存储单元或者从存储器中得到数据地址单元中的数据。 
+(4) 存储器访问(MEM)：所有需要访问存储器的操作都将在这个步骤中执行，该步骤给出存储器的数据地址，把数据写入到存储器中数据地址所指定的存储单元或者从存储器中得到数据地址单元中的数据。
 
-(5) 结果写回(WB)：指令执行的结果或者访问存储器中得到的数据写回相应的目的寄存器中。 
-
-
+(5) 结果写回(WB)：指令执行的结果或者访问存储器中得到的数据写回相应的目的寄存器中。
 
 ## 取指令
 
 取指令比较简单，因为对于所有的指令来说，取指令的操作都是一样的：CPU取指令时把程序计数器（PC）中的值作为访问存储器的地址，来取得一条32位的指令。如果指令没有引起转移，PC值+4；如果转移，要把转移的目标地址写入PC。
-
-
 
 ### 取指令的电路设计
 
 ![image-20240613172639468](https://raw.githubusercontent.com/lidianzhong/astro-blog/refs/heads/edit/src/content/blog/operating_system/single_cycle_cpu/image-20240613172639468.png)
 
 如图所示。这个模块的输入是a，也就是地址，输出是do，也就是指令。其中的加法器用于 PC + 4，它的输出接到多路器的一个输入端。其中的多路选择器用于选择是不是要执行 PC + 4（如果取来的指令没有引起跳转和转移，那么多路选择器选择 PC + 4，在时钟上升沿打入PC；如果没有，那再另说）
-
-
 
 ## 执行指令
 
@@ -84,8 +63,6 @@ cover:
 
 最后，ALU 的计算结果要写入寄存器堆。写到32个寄存器中的哪一个地方，由5位目的寄存器号 rd 指定。
 
-
-
 执行移位指令 sll（Shift Left Logical）、srl（Shift Right Logical）、sra（Shift Right Arithmetic） 这几个操作的电路如下图
 
 ![image-20240613191634006](https://raw.githubusercontent.com/lidianzhong/astro-blog/refs/heads/edit/src/content/blog/operating_system/single_cycle_cpu/image-20240613191634006.png)
@@ -94,31 +71,19 @@ cover:
 
 这里相较于之前的变化是：ALU 的两个输入值 a，b 不是都来源于寄存器堆的两个输出值 qa，qb，而是 ALU 输入中的 b 来源于寄存器堆的输出值 qb，ALU 输入中的 a 来源于 指令中的5位 sa。即，ALU 的输入现在是 32 位数据和要移动的位数。这里寄存器号 rs 没有使用，按规定这5位被设置为0。
 
-
-
 之前的 ALU 的输入是两个 32 位数据，现在 ALU 的输入是 一个 32 位数据和 5 位的移位位数，所以 ALU 中对数据的处理也会不一样。具体来说，把 sa 的移位位数放到最右边，在设计 ALU 的时候只用低 5 位进行移位操作。
 
-
-
 于是，ALU 的输入端 a 的数据来源有两个（可能是来自寄存器堆的 qa，也可能是来自指令中的 sa），要根据取来的指令，判断出选择哪个路。这时候就可以使用多路选择器，具体选哪个的信号由控制部件产生。
-
-
 
 ### 立即数计算类型指令执行
 
 上面的内容是关于寄存器计算类型指令的执行，概括来说，分为执行 add、sub、and、or、xor 这几个指令和执行移位指令两类。前者 ALU 的两个输入由寄存器堆的两个数据产生，后者 ALU 的两个输入由寄存器堆的一个数据和指令中的移位数据产生。而立即数计算类型执行指令不同寄存器计算类型指令的是，ALU 的操作数 b 是来自于指令中的立即数（即 ALU 的输入 b 就放在指令中，没有取址操作了）。
 
-
-
 立即数计算类型的指令涉及有：addi、andi、ori、xori 和 lui，它们仅由 op 区分，它们的特点是 ALU 操作数 b 来自于指令中的立即数。除了 lui（加载上半部分立即数，将一个16位的立即数放到寄存器的高16位，低16位被清零） 之外，其余仍然都是三操作数，而 lui 为两操作数。
-
-
 
 注意，一般寄存器取得的值是32位的，但是立即数为 16 位，需要进行扩展。怎么扩展？要求算数运算指令 addi 进行符号扩展，逻辑运算指令 andi、ori 和 xori 进行零扩展。这通过控制信号sext（Sign Extend）为 1 时符号扩展，否则零扩展。
 
 ![image-20240613200610417](https://raw.githubusercontent.com/lidianzhong/astro-blog/refs/heads/edit/src/content/blog/operating_system/single_cycle_cpu/image-20240613200610417.png)
-
-
 
 ### 访问存储器指令执行
 
@@ -129,8 +94,6 @@ cover:
 现在，将存储器也加到流程图里。
 
 ![image-20240619130841472](https://raw.githubusercontent.com/lidianzhong/astro-blog/refs/heads/edit/src/content/blog/operating_system/single_cycle_cpu/image-20240619130841472.png)
-
-
 
 ### 条件转移类型指令执行
 
@@ -144,8 +107,6 @@ cover:
 
 ![image-20240619132506948](https://raw.githubusercontent.com/lidianzhong/astro-blog/refs/heads/edit/src/content/blog/operating_system/single_cycle_cpu/image-20240619132506948.png)
 
-
-
 ### 跳转和子程序调用及返回类型指令执行
 
 无条件跳转相关指令为：j(Jump)、jal(Jump and Link)、jr(Jump Register)。
@@ -156,31 +117,21 @@ jal 指令：调用子程序的指令。它除了完成和 j 指令一样的任�
 
 jr 指令：把从 rs 指定的寄存器中读出的内容写入 PC，这样就能跳转到指定的地址了。也可以用于从子程序返回(rs = 31)。
 
-
-
 j 指令的电路如下，因为只要左移指令中的地址，再与 PC + 4 的高四位拼接就行了，所以很简单。
 
 ![image-20240619134518541](https://raw.githubusercontent.com/lidianzhong/astro-blog/refs/heads/edit/src/content/blog/operating_system/single_cycle_cpu/image-20240619134518541.png)
-
-
 
 jal 指令的电路如下，比 j 指令多了将返回地址写入到 r31 寄存器
 
 ![image-20240619135501167](https://raw.githubusercontent.com/lidianzhong/astro-blog/refs/heads/edit/src/content/blog/operating_system/single_cycle_cpu/image-20240619135501167.png)
 
-
-
 jr 指令的电路如下，实现的是：把rs指定的寄存器中读出的内容写入 PC
 
 ![image-20240619135853806](https://raw.githubusercontent.com/lidianzhong/astro-blog/refs/heads/edit/src/content/blog/operating_system/single_cycle_cpu/image-20240619135853806.png)
 
-
-
 ## 寄存器堆设计
 
 ![image-20240619142242215](https://raw.githubusercontent.com/lidianzhong/astro-blog/refs/heads/edit/src/content/blog/operating_system/single_cycle_cpu/image-20240619142242215.png)
-
-
 
 ## 数据路径设计
 
@@ -198,18 +149,16 @@ CPU 的电路包括**数据路径(Datapath)** 和 **控制部件(Control Unit)**
 
 ![image-20240619155002388](https://raw.githubusercontent.com/lidianzhong/astro-blog/refs/heads/edit/src/content/blog/operating_system/single_cycle_cpu/image-20240619155002388.png)
 
-| pcsource | 通路       |    备注 |
-| -------- | ---------- | ------: |
-| 0        | PC + 4     |      无 |
-| 1        | BranchAddr | beq,bne |
-| 2        | RegAddr    |      jr |
-| 3        | JumpAddr   |   j,jal |
+| pcsource | 通路 | 备注 |
+| --- | --- | --- |
+| 0 | PC + 4 | 无 |
+| 1 | BranchAddr | beq,bne |
+| 2 | RegAddr | jr |
+| 3 | JumpAddr | j,jal |
 
 对应于电路图：
 
 ![image-20240619160943388](https://raw.githubusercontent.com/lidianzhong/astro-blog/refs/heads/edit/src/content/blog/operating_system/single_cycle_cpu/image-20240619160943388.png)
-
-
 
 #### 2. 控制信号 shift
 
@@ -223,11 +172,7 @@ CPU 的电路包括**数据路径(Datapath)** 和 **控制部件(Control Unit)**
 
 ![image-20240619163101190](https://raw.githubusercontent.com/lidianzhong/astro-blog/refs/heads/edit/src/content/blog/operating_system/single_cycle_cpu/image-20240619163101190.png)
 
-
-
-
-
-#### 3.  控制信号 aluimn 和 regret
+#### 3. 控制信号 aluimn 和 regret
 
 这里的输入源为：ALU 的 b 输入端和寄存器堆 wn 输入端
 
@@ -239,23 +184,17 @@ CPU 的电路包括**数据路径(Datapath)** 和 **控制部件(Control Unit)**
 
 在 addi 指令中，会把指令中的立即数经符号扩展后送至 ALU 的b输入端。ALU的加法结果保存到rt寄存器中。
 
-
-
 这里ALU的b输入端有两个数据源:一个来自寄存器堆的qb端，一个来自指令中的 imm。对应二选一多路选择器的选择信号为 aluimn。当 alumin = 1时，选择立即数，否则，选择寄存器操作数。
 
 这里寄存器堆的 wn输人端(目的寄存器号)也有两个数据源:一个来自指令中的 rd，一个来自指令中的rt。对应二选一多路选择器为 regret。当 regret = 1时，选择 rt，否则，选择 rd。
 
 ![image-20240619164004523](https://raw.githubusercontent.com/lidianzhong/astro-blog/refs/heads/edit/src/content/blog/operating_system/single_cycle_cpu/image-20240619164004523.png)
 
-
-
 #### 4. 控制信号 m2reg 和 jal
 
 这里涉及到用多路选择器的地方：ALU 的输出 or 数据存储器的输出、要写入寄存器堆哪32位数据、写到寄存器堆中的哪个寄存器。
 
 ![image-20240619170147744](https://raw.githubusercontent.com/lidianzhong/astro-blog/refs/heads/edit/src/content/blog/operating_system/single_cycle_cpu/image-20240619170147744.png)
-
-
 
 ### 单周期 CPU 的总体电路
 
@@ -264,6 +203,3 @@ CPU 的电路包括**数据路径(Datapath)** 和 **控制部件(Control Unit)**
 ![image-20240619171947231](https://raw.githubusercontent.com/lidianzhong/astro-blog/refs/heads/edit/src/content/blog/operating_system/single_cycle_cpu/image-20240619171947231.png)
 
 ![image-20240620062746235](https://raw.githubusercontent.com/lidianzhong/astro-blog/refs/heads/edit/src/content/blog/operating_system/single_cycle_cpu/image-20240620062746235.png)
-
-
-
