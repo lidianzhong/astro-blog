@@ -918,17 +918,17 @@ video {
 
   /* Vrite 浅色模式变量 */
   --color-bg-primary: rgb(249 250 251);  /* gray-50 */
-  --color-bg-secondary: rgb(243 244 246);  /* gray-100 */
+  --color-bg-secondary: #e3f2fd;  /* gray-100 */
   --color-bg-code: rgb(229 231 235);  /* gray-200 */
-  --color-bg-accent: rgb(243 244 246);  /* gray-100 */
-  --color-bg-hover: rgb(243 244 246);
-  --color-bg-card: rgb(255 255 255);
-  --color-text-primary: rgb(55 65 81);  /* gray-700 */
-  --color-text-secondary: rgb(107 114 128);  /* gray-500 */
+  --color-bg-accent: #f3f4f6;
+  --color-bg-hover: #e3f2fd;
+  --color-bg-card: rgb(249 250 251);
+  --color-text-primary: #333;  /* gray-700 */
+  --color-text-secondary: #666;  /* gray-500 */
   --color-text-muted: rgb(156 163 175);  /* gray-400 */
-  --color-border: rgb(229 231 235);  /* gray-200 */
-  --color-link: rgb(59 130 246);  /* blue-500 */
-  --color-link-hover: rgb(37 99 235);  /* blue-600 */
+  --color-border: #e5e7eb;
+  --color-link: #0065B3;  /* blue-500 */
+  --color-link-hover: rgb(10, 99, 139);  /* blue-600 */
 }
 
 :root.dark {
@@ -937,13 +937,13 @@ video {
   --color-bg-secondary: rgb(17 24 39);  /* gray-900 */
   --color-bg-accent: rgb(55 65 81);  /* gray-700 */
   --color-bg-hover: rgb(55 65 81);
-  --color-bg-card: rgb(31 41 55);
+  --color-bg-card: rgb(17 24 39);  /* gray-900 */
   --color-text-primary: rgb(255, 255, 255);  /* gray-100 */
   --color-text-secondary: rgb(156 163 175);  /* gray-400 */
   --color-text-muted: rgb(107 114 128);  /* gray-500 */
   --color-border: rgb(75 85 99);  /* gray-600 */
-  --color-link: rgb(96 165 250);  /* blue-400 */
-  --color-link-hover: rgb(147 197 253);  /* blue-300 */
+  --color-link: rgb(56 189 248);  /* blue-400 */
+  --color-link-hover: rgb(18, 106, 215);  /* blue-300 */
 }
 
 html {
@@ -970,7 +970,7 @@ html {
   padding: 0.75rem 1rem !important;
   margin: 0.375rem 0 !important;
   overflow-x: auto;
-  background-color: rgb(229 231 235) !important;  /* gray-200 */
+  background-color: var(--color-bg-accent) !important;
 }
 
 .astro-code:is(.dark *) {

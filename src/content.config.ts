@@ -24,9 +24,9 @@ const categoryLabels: Record<string, string> = {
   cpp: 'C++',
   algorithm: 'Algorithm',
   machine_learning: 'Machine Learning',
-  misc: 'Miscellaneous',
-  operating_system: 'Operating System',
-  computer_network: 'Computer Network',
+  misc: 'Misc',
+  operating_system: 'OS',
+  computer_network: 'Network',
   // 这里添加其它新的分类
 };
 
