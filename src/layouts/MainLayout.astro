@@ -5,6 +5,8 @@ import '../styles/global.css';
 
 const { title = "Dawn Journey" } = Astro.props;
 const pageTitle = title === "Dawn Journey" ? title : `${title} - Dawn Journey`;
+// Prefer a PUBLIC_ env var; fallback to provided token to keep working without config
+const VRITE_TOKEN = import.meta.env.PUBLIC_VRITE_TOKEN ?? "FHnI--Ivk2TIyhs_7eMWD:laAE0JFodUdy9q0BM0Yf6";
 ---
 
 <!-- transition:animate="none" -->
@@ -48,6 +50,75 @@ const pageTitle = title === "Dawn Journey" ? title : `${title} - Dawn Journey`;
                 document.addEventListener('astro:after-swap', initTheme);
             })();
         </script>
+        <script is:inline set:html={`
+            // 按 '/' 快捷键：根据当前页面 slug 查询 Vrite 内容并跳转到编辑器
+            (function() {
+                const VRITE_TOKEN = ${JSON.stringify(VRITE_TOKEN)};
+
+                function isEditable(el) {
+                    if (!el) return false;
+                    const tag = el.tagName;
+                    return (
+                        el.isContentEditable ||
+                        tag === 'INPUT' ||
+                        tag === 'TEXTAREA' ||
+                        tag === 'SELECT'
+                    );
+                }
+
+                function getSlugMdFromPath() {
+                    try {
+                        // 去掉结尾的斜杠，取最后一个路径段
+                        const path = window.location.pathname.replace(/\\/+$/, '');
+                        const segments = path.split('/').filter(Boolean);
+                        const last = segments[segments.length - 1] || '';
+                        if (!last) return null;
+                        const base = decodeURIComponent(last);
+                        return base + '-md';
+                    } catch (_) {
+                        return null;
+                    }
+                }
+
+                async function queryVriteIdBySlug(slugMd) {
+                    const url = new URL('https://api.vrite.io/content-pieces/list');
+                    url.searchParams.set('slug', slugMd);
+                    const res = await fetch(url.toString(), {
+                        method: 'GET',
+                        headers: {
+                            'Accept': 'application/json',
+                            'Authorization': 'Bearer ' + VRITE_TOKEN
+                        },
+                        mode: 'cors',
+                        credentials: 'omit'
+                    });
+                    if (!res.ok) return null;
+                    const data = await res.json();
+                    if (!Array.isArray(data) || data.length === 0) return null;
+                    const match = data.find(function(x){ return x && x.slug === slugMd; }) || data[0];
+                    return match && match.id ? match.id : null;
+                }
+
+                async function onKeyDown(e) {
+                    // 仅在未聚焦可编辑元素时响应
+                    if (isEditable(document.activeElement)) return;
+                    if (e.key !== '/' || e.altKey || e.ctrlKey || e.metaKey) return;
+                    e.preventDefault();
+                    const slugMd = getSlugMdFromPath();
+                    if (!slugMd) return;
+                    try {
+                        const id = await queryVriteIdBySlug(slugMd);
+                        if (id) {
+                            window.location.href = 'https://app.vrite.io/editor/' + id;
+                        }
+                    } catch (_) {
+                        // 静默失败
+                    }
+                }
+
+                window.addEventListener('keydown', onKeyDown, { passive: false });
+            })();
+        `} />
         
     </head>
     <body transition:animate="none">
