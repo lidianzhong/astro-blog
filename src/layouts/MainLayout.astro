@@ -78,6 +78,10 @@ const pageTitle = title === "Dawn Journey" ? title : `${title} - Dawn Journey`;
                             .replace(/\.html?$/i, '')
                             .replace(/-md$/i, '');
 
+                        // 规范化：把下划线转换为短横线，避免不同命名风格导致 slug 不一致
+                        // 例如 2024-04-19-how_to_switch_cuda_versions -> 2024-04-19-how-to-switch-cuda-versions
+                        base = base.replace(/_/g, '-').replace(/--+/g, '-');
+
                         if (!base) return null;
                         return base + '-md';
                     } catch {
