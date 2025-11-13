@@ -13,3 +13,5 @@
 ### 具体执行
 
 参考：[记录一次 docker Overlay2 占用磁盘空间 99%的清理过程 | Laravel China 社区 (learnku.com)](https://learnku.com/articles/85263)
+
+![](https://assets.vrite.io/6911ac419f7f9f759a43afa1/pUuHvhZizG7mlrZgyvg-p.jpeg)
