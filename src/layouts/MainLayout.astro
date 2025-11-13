@@ -5,8 +5,6 @@ import '../styles/global.css';
 
 const { title = "Dawn Journey" } = Astro.props;
 const pageTitle = title === "Dawn Journey" ? title : `${title} - Dawn Journey`;
-// Prefer a PUBLIC_ env var; fallback to provided token to keep working without config
-const VRITE_TOKEN = import.meta.env.PUBLIC_VRITE_TOKEN ?? "FHnI--Ivk2TIyhs_7eMWD:laAE0JFodUdy9q0BM0Yf6";
 ---
 
 <!-- transition:animate="none" -->
@@ -50,10 +48,9 @@ const VRITE_TOKEN = import.meta.env.PUBLIC_VRITE_TOKEN ?? "FHnI--Ivk2TIyhs_7eMWD
                 document.addEventListener('astro:after-swap', initTheme);
             })();
         </script>
-        <script is:inline set:html={`
-            // 按 '/' 快捷键：根据当前页面 slug 查询 Vrite 内容并跳转到编辑器
+        <script is:inline>
             (function() {
-                const VRITE_TOKEN = ${JSON.stringify(VRITE_TOKEN)};
+                const VRITE_TOKEN = "FHnI--Ivk2TIyhs_7eMWD:laAE0JFodUdy9q0BM0Yf6";
 
                 function isEditable(el) {
                     if (!el) return false;
@@ -68,14 +65,22 @@ const VRITE_TOKEN = import.meta.env.PUBLIC_VRITE_TOKEN ?? "FHnI--Ivk2TIyhs_7eMWD
 
                 function getSlugMdFromPath() {
                     try {
-                        // 去掉结尾的斜杠，取最后一个路径段
-                        const path = window.location.pathname.replace(/\/+$/, '');
+                        let path = window.location.pathname || '/';
+                        path = path.replace(/\/+$/, '');
+                        if (path === '' || path === '/') return null;
+
                         const segments = path.split('/').filter(Boolean);
-                        const last = segments[segments.length - 1] || '';
+                        const last = segments.pop();
                         if (!last) return null;
-                        const base = decodeURIComponent(last);
+
+                        // 去掉可能的 .html 或结尾的 -md 避免重复
+                        let base = decodeURIComponent(last)
+                            .replace(/\.html?$/i, '')
+                            .replace(/-md$/i, '');
+
+                        if (!base) return null;
                         return base + '-md';
-                    } catch (_) {
+                    } catch {
                         return null;
                     }
                 }
@@ -88,19 +93,16 @@ const VRITE_TOKEN = import.meta.env.PUBLIC_VRITE_TOKEN ?? "FHnI--Ivk2TIyhs_7eMWD
                         headers: {
                             'Accept': 'application/json',
                             'Authorization': 'Bearer ' + VRITE_TOKEN
-                        },
-                        mode: 'cors',
-                        credentials: 'omit'
+                        }
                     });
                     if (!res.ok) return null;
                     const data = await res.json();
                     if (!Array.isArray(data) || data.length === 0) return null;
-                    const match = data.find(function(x){ return x && x.slug === slugMd; }) || data[0];
+                    const match = data.find(x => x && x.slug === slugMd) || data[0];
                     return match && match.id ? match.id : null;
                 }
 
                 async function onKeyDown(e) {
-                    // 仅在未聚焦可编辑元素时响应
                     if (isEditable(document.activeElement)) return;
                     if (e.key !== '/' || e.altKey || e.ctrlKey || e.metaKey) return;
                     e.preventDefault();
@@ -111,14 +113,12 @@ const VRITE_TOKEN = import.meta.env.PUBLIC_VRITE_TOKEN ?? "FHnI--Ivk2TIyhs_7eMWD
                         if (id) {
                             window.location.href = 'https://app.vrite.io/editor/' + id;
                         }
-                    } catch (_) {
-                        // 静默失败
-                    }
+                    } catch {}
                 }
 
                 window.addEventListener('keydown', onKeyDown, { passive: false });
             })();
-        `} />
+        </script>
         
     </head>
     <body transition:animate="none">
