@@ -52,7 +52,7 @@ cover:
 
 ### 取指令的电路设计
 
-![image-20240613172639468](./single_cycle_cpu/image-20240613172639468.png)
+![image-20240613172639468](https://raw.githubusercontent.com/lidianzhong/astro-blog/refs/heads/edit/src/content/blog/operating_system/single_cycle_cpu/image-20240613172639468.png)
 
 如图所示。这个模块的输入是a，也就是地址，输出是do，也就是指令。其中的加法器用于 PC + 4，它的输出接到多路器的一个输入端。其中的多路选择器用于选择是不是要执行 PC + 4（如果取来的指令没有引起跳转和转移，那么多路选择器选择 PC + 4，在时钟上升沿打入PC；如果没有，那再另说）
 
@@ -64,7 +64,7 @@ cover:
 
 20条 MIPS 整数指令
 
-![bf25ca2e4b3aeb6284b1bd36e46ad50](./single_cycle_cpu/bf25ca2e4b3aeb6284b1bd36e46ad50.png)
+![bf25ca2e4b3aeb6284b1bd36e46ad50](https://raw.githubusercontent.com/lidianzhong/astro-blog/refs/heads/edit/src/content/blog/operating_system/single_cycle_cpu/bf25ca2e4b3aeb6284b1bd36e46ad50.png)
 
 ### 寄存器计算类型指令执行
 
@@ -72,7 +72,7 @@ cover:
 
 执行 add、sub、and、or、xor 这几个操作的电路如下图
 
-![image-20240613190212729](./single_cycle_cpu/image-20240613190212729.png)
+![image-20240613190212729](https://raw.githubusercontent.com/lidianzhong/astro-blog/refs/heads/edit/src/content/blog/operating_system/single_cycle_cpu/image-20240613190212729.png)
 
 分析：可以观察到它们的操作码 op 都是0，用 func 来区分不同的计算类型。这几个 MIPS 指令属于三操作数指令。
 
@@ -88,7 +88,7 @@ cover:
 
 执行移位指令 sll（Shift Left Logical）、srl（Shift Right Logical）、sra（Shift Right Arithmetic） 这几个操作的电路如下图
 
-![image-20240613191634006](./single_cycle_cpu/image-20240613191634006.png)
+![image-20240613191634006](https://raw.githubusercontent.com/lidianzhong/astro-blog/refs/heads/edit/src/content/blog/operating_system/single_cycle_cpu/image-20240613191634006.png)
 
 分析：它们的操作码 op 仍然都是 0，用 func 来区分不同的计算类型。这几个 MIPS 指令仍属于三操作数指令。
 
@@ -116,7 +116,7 @@ cover:
 
 注意，一般寄存器取得的值是32位的，但是立即数为 16 位，需要进行扩展。怎么扩展？要求算数运算指令 addi 进行符号扩展，逻辑运算指令 andi、ori 和 xori 进行零扩展。这通过控制信号sext（Sign Extend）为 1 时符号扩展，否则零扩展。
 
-![image-20240613200610417](./single_cycle_cpu/image-20240613200610417.png)
+![image-20240613200610417](https://raw.githubusercontent.com/lidianzhong/astro-blog/refs/heads/edit/src/content/blog/operating_system/single_cycle_cpu/image-20240613200610417.png)
 
 
 
@@ -128,7 +128,7 @@ cover:
 
 现在，将存储器也加到流程图里。
 
-![image-20240619130841472](./single_cycle_cpu/image-20240619130841472.png)
+![image-20240619130841472](https://raw.githubusercontent.com/lidianzhong/astro-blog/refs/heads/edit/src/content/blog/operating_system/single_cycle_cpu/image-20240619130841472.png)
 
 
 
@@ -142,7 +142,7 @@ cover:
 
 加上条件转移指令的流程图如下。
 
-![image-20240619132506948](./single_cycle_cpu/image-20240619132506948.png)
+![image-20240619132506948](https://raw.githubusercontent.com/lidianzhong/astro-blog/refs/heads/edit/src/content/blog/operating_system/single_cycle_cpu/image-20240619132506948.png)
 
 
 
@@ -160,25 +160,25 @@ jr 指令：把从 rs 指定的寄存器中读出的内容写入 PC，这样就�
 
 j 指令的电路如下，因为只要左移指令中的地址，再与 PC + 4 的高四位拼接就行了，所以很简单。
 
-![image-20240619134518541](./single_cycle_cpu/image-20240619134518541.png)
+![image-20240619134518541](https://raw.githubusercontent.com/lidianzhong/astro-blog/refs/heads/edit/src/content/blog/operating_system/single_cycle_cpu/image-20240619134518541.png)
 
 
 
 jal 指令的电路如下，比 j 指令多了将返回地址写入到 r31 寄存器
 
-![image-20240619135501167](./single_cycle_cpu/image-20240619135501167.png)
+![image-20240619135501167](https://raw.githubusercontent.com/lidianzhong/astro-blog/refs/heads/edit/src/content/blog/operating_system/single_cycle_cpu/image-20240619135501167.png)
 
 
 
 jr 指令的电路如下，实现的是：把rs指定的寄存器中读出的内容写入 PC
 
-![image-20240619135853806](./single_cycle_cpu/image-20240619135853806.png)
+![image-20240619135853806](https://raw.githubusercontent.com/lidianzhong/astro-blog/refs/heads/edit/src/content/blog/operating_system/single_cycle_cpu/image-20240619135853806.png)
 
 
 
 ## 寄存器堆设计
 
-![image-20240619142242215](./single_cycle_cpu/image-20240619142242215.png)
+![image-20240619142242215](https://raw.githubusercontent.com/lidianzhong/astro-blog/refs/heads/edit/src/content/blog/operating_system/single_cycle_cpu/image-20240619142242215.png)
 
 
 
@@ -196,7 +196,7 @@ CPU 的电路包括**数据路径(Datapath)** 和 **控制部件(Control Unit)**
 
 程序不进行转移时，PC + 4，但有时程序会进行跳转，会引起跳转的指令有以下五条。
 
-![image-20240619155002388](./single_cycle_cpu/image-20240619155002388.png)
+![image-20240619155002388](https://raw.githubusercontent.com/lidianzhong/astro-blog/refs/heads/edit/src/content/blog/operating_system/single_cycle_cpu/image-20240619155002388.png)
 
 | pcsource | 通路       |    备注 |
 | -------- | ---------- | ------: |
@@ -207,7 +207,7 @@ CPU 的电路包括**数据路径(Datapath)** 和 **控制部件(Control Unit)**
 
 对应于电路图：
 
-![image-20240619160943388](./single_cycle_cpu/image-20240619160943388.png)
+![image-20240619160943388](https://raw.githubusercontent.com/lidianzhong/astro-blog/refs/heads/edit/src/content/blog/operating_system/single_cycle_cpu/image-20240619160943388.png)
 
 
 
@@ -217,11 +217,11 @@ CPU 的电路包括**数据路径(Datapath)** 和 **控制部件(Control Unit)**
 
 涉及到的指令为两条寄存器操作型指令：一条是加法指令，一条是移位指令。
 
-![image-20240619161338046](./single_cycle_cpu/image-20240619161338046.png)
+![image-20240619161338046](https://raw.githubusercontent.com/lidianzhong/astro-blog/refs/heads/edit/src/content/blog/operating_system/single_cycle_cpu/image-20240619161338046.png)
 
 这里 ALU 的 a 输入端有两个数据源：一个来自寄存器 qa 端，一个来自指令中的 sa。我们使用二选一多路器从中选择一个，多路选择器的控制信号命名为 shift。当 shift = 1，选择 sa。
 
-![image-20240619163101190](./single_cycle_cpu/image-20240619163101190.png)
+![image-20240619163101190](https://raw.githubusercontent.com/lidianzhong/astro-blog/refs/heads/edit/src/content/blog/operating_system/single_cycle_cpu/image-20240619163101190.png)
 
 
 
@@ -233,7 +233,7 @@ CPU 的电路包括**数据路径(Datapath)** 和 **控制部件(Control Unit)**
 
 涉及到的指令为两条指令：一条是寄存器型指令，一条是立即数型指令。
 
-![image-20240619164113098](./single_cycle_cpu/image-20240619164113098.png)
+![image-20240619164113098](https://raw.githubusercontent.com/lidianzhong/astro-blog/refs/heads/edit/src/content/blog/operating_system/single_cycle_cpu/image-20240619164113098.png)
 
 在 add 指令中，会从寄存器堆的rt寄存器读出32位数据将它送至 ALU的b输入端。ALU的加法结果保存到寄存器堆的rd寄存器中。
 
@@ -245,7 +245,7 @@ CPU 的电路包括**数据路径(Datapath)** 和 **控制部件(Control Unit)**
 
 这里寄存器堆的 wn输人端(目的寄存器号)也有两个数据源:一个来自指令中的 rd，一个来自指令中的rt。对应二选一多路选择器为 regret。当 regret = 1时，选择 rt，否则，选择 rd。
 
-![image-20240619164004523](./single_cycle_cpu/image-20240619164004523.png)
+![image-20240619164004523](https://raw.githubusercontent.com/lidianzhong/astro-blog/refs/heads/edit/src/content/blog/operating_system/single_cycle_cpu/image-20240619164004523.png)
 
 
 
@@ -253,7 +253,7 @@ CPU 的电路包括**数据路径(Datapath)** 和 **控制部件(Control Unit)**
 
 这里涉及到用多路选择器的地方：ALU 的输出 or 数据存储器的输出、要写入寄存器堆哪32位数据、写到寄存器堆中的哪个寄存器。
 
-![image-20240619170147744](./single_cycle_cpu/image-20240619170147744.png)
+![image-20240619170147744](https://raw.githubusercontent.com/lidianzhong/astro-blog/refs/heads/edit/src/content/blog/operating_system/single_cycle_cpu/image-20240619170147744.png)
 
 
 
@@ -261,9 +261,9 @@ CPU 的电路包括**数据路径(Datapath)** 和 **控制部件(Control Unit)**
 
 单周期 CPU + 指令存储器 + 数据存储器 的总体电路图
 
-![image-20240619171947231](./single_cycle_cpu/image-20240619171947231.png)
+![image-20240619171947231](https://raw.githubusercontent.com/lidianzhong/astro-blog/refs/heads/edit/src/content/blog/operating_system/single_cycle_cpu/image-20240619171947231.png)
 
-![image-20240620062746235](./single_cycle_cpu/image-20240620062746235.png)
+![image-20240620062746235](https://raw.githubusercontent.com/lidianzhong/astro-blog/refs/heads/edit/src/content/blog/operating_system/single_cycle_cpu/image-20240620062746235.png)
 
 
 

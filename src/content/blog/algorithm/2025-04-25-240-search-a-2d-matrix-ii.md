@@ -39,7 +39,7 @@ cover:
 
 灵神的思路是利用排除法，可以通过下面的图片理解。
 
-![lc240.png](240-search-a-2d-matrix-ii/1716183468-zVwElx-lc240.png)
+![lc240.png](https://raw.githubusercontent.com/lidianzhong/astro-blog/refs/heads/edit/src/content/blog/algorithm/240-search-a-2d-matrix-ii/1716183468-zVwElx-lc240.png)
 
 ## 代码
 

@@ -56,7 +56,7 @@ source ~/ros_catkin_ws/install/setup.bash
 
 ### rosdep update 报错，网络问题
 
-![image-20240430044101740](ros_noetic_install_from_source/image-20240430044101740.png)
+![image-20240430044101740](https://raw.githubusercontent.com/lidianzhong/astro-blog/refs/heads/edit/src/content/blog/misc/ros_noetic_install_from_source/image-20240430044101740.png)
 
 原因：网络被墙，考虑使用 rosdepc 或者开 VPN 再尝试
 
@@ -64,7 +64,7 @@ source ~/ros_catkin_ws/install/setup.bash
 
 ### `vcs import --input noetic-desktop.rosinstall ./src` 命令会很慢，且报错
 
-![image-20240430045305375](ros_noetic_install_from_source/image-20240430045305375.png)
+![image-20240430045305375](https://raw.githubusercontent.com/lidianzhong/astro-blog/refs/heads/edit/src/content/blog/misc/ros_noetic_install_from_source/image-20240430045305375.png)
 
 原因：依然是网络被墙，方法同上
 
@@ -108,7 +108,7 @@ version which was used when Shiboken was built.
    with FORCE_LIMITED_API set to '1', so that only the Python major version
    matters.
 
-![image-20240430053951854](ros_noetic_install_from_source/image-20240430053951854.png)
+![image-20240430053951854](https://raw.githubusercontent.com/lidianzhong/astro-blog/refs/heads/edit/src/content/blog/misc/ros_noetic_install_from_source/image-20240430053951854.png)
 
 原因：python版本不满足造成的，可以指定 python 工具完成
 

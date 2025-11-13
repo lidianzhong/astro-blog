@@ -40,7 +40,7 @@ cover:
 
 用户态的程序如果想要操作系统底层硬件，就只能通过`系统调用`让位于内核态的程序来帮助其完成系统底层硬件的操作，待内核态程序处理完成之后再将结果返回给用户态程序。用户态、系统调用、内核态和系统底层硬件之间的关系如下图所示：
 
-![用户态、系统调用、内核态和系统底层硬件之间的关系(图片来源网络)](./software_debugging/v2-63a592f4705344fbe6fe7d1afffd226c_1440w.jpg)
+![用户态、系统调用、内核态和系统底层硬件之间的关系(图片来源网络)](https://raw.githubusercontent.com/lidianzhong/astro-blog/refs/heads/edit/src/content/blog/operating_system/software_debugging/v2-63a592f4705344fbe6fe7d1afffd226c_1440w.jpg)
 
 > 由系统调用可以牵扯出一个概念——`CPU上下文切换`。`CPU上下文切换`指的是CPU处理过程中的CPU寄存器和程序计数器`pc`值的切换。
 
@@ -301,7 +301,7 @@ ptrace的内核实现在`kernel/ptrace.c`文件中，直接看内核接口是`SY
 1. 调用系统函数ptrace(PTRACE_TRACEME，[其他参数])；
 2. 通过execc来加载、执行可执行程序test，那么test程序就在这个子进程中开始执行了。
 
-![GDB调试过程(图片来源：CSDN melody157398)](software_debugging/57320c943be35bbc0a90249442e934c3.png)
+![GDB调试过程(图片来源：CSDN melody157398)](https://raw.githubusercontent.com/lidianzhong/astro-blog/refs/heads/edit/src/content/blog/operating_system/software_debugging/57320c943be35bbc0a90249442e934c3.png)
 
 ptrace系统函数是Linux内核提供的一个用于进程跟踪的系统调用，通过它，一个进程(gdb)可以读写另外一个进程(test)的指令空间、数据空间、堆栈和寄存器的值。而且gdb进程接管了test进程的所有信号，也就是说系统向test进程发送的所有信号，都被gdb进程接收到，这样一来，test进程的执行就被gdb控制了，从而达到调试的目的。
 
@@ -313,7 +313,7 @@ ptrace系统函数是Linux内核提供的一个用于进程跟踪的系统调用
 
 之前使用的ptrace传入的参数为PTRACE_TRACEME，现在需要传入PTRACE_ATTACH，这时候是**父进程调用`ptrace(PTRACE_ATTACH,[其他参数])`**，这样gdb进程会attach(绑定)到已经执行的进程B，此时gdb进程会发送SIGSTO信号给子进程B，子进程B接收到SIGSTOP信号后，就会暂停执行进入TASK_STOPED状态，表示自己准备好被调试了。
 
-![img](software_debugging/5ca6936da5e832d8a0d9f238e876da10.png)
+![img](https://raw.githubusercontent.com/lidianzhong/astro-blog/refs/heads/edit/src/content/blog/operating_system/software_debugging/5ca6936da5e832d8a0d9f238e876da10.png)
 
 所以，不论是调试一个新程序，还是调试一个已经处于执行中状态的服务程序，通过ptrace系统调用，最终的结果都是：gdb程序是父进程，被调试程序是子进程，子进程的所有信号都被父进程gdb来接管，并且父进程gdb可查看、修改子进程的内部信息，包括：堆栈、寄存器等。
 
