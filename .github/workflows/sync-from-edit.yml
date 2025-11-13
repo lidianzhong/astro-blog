@@ -8,6 +8,8 @@ on:
 jobs:
   sync-to-dev:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     
     steps:
       - name: Checkout edit branch
@@ -15,6 +17,7 @@ jobs:
         with:
           ref: edit
           fetch-depth: 0
+          token: ${{ secrets.MY_GITHUB_TOKEN }}
       
       - name: Setup Python
         uses: actions/setup-python@v5
