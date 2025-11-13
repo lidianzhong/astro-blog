@@ -72,20 +72,24 @@ jobs:
           git fetch origin edit:edit || git branch edit
           git checkout edit
       
-      - name: Sync blog content to edit branch
+      - name: Sync blog content and workflows to edit branch
         run: |
           # Remove existing blog content
           rm -rf src/content/blog/*
           
-          # Copy converted content
+          # Copy converted blog content
           cp -r temp_blog/* src/content/blog/
           
+          # Sync .github directory (workflows and scripts)
+          rm -rf .github
+          git checkout dev -- .github
+          
           # Add and commit changes
-          git add src/content/blog
+          git add src/content/blog .github
           
           # Only commit if there are changes
           if ! git diff --cached --quiet; then
-            git commit -m "Sync blog content from dev branch with absolute URLs [skip ci]"
+            git commit -m "Sync blog content and workflows from dev branch [skip ci]"
             git push origin edit
           else
             echo "No changes to commit"
