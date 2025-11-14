@@ -1,42 +1,14 @@
----
-title: "53. 最大子数组和"
-published: 2025-04-23
-lastmod: 2025-04-23
-category: "算法"
-tags: ["算法", "Leetcode"]
-description: '给你一个整数数组 nums ，请你找出一个具有最大和的连续子数组（子数组最少包含一个元素），返回其最大和。'
-weight: 53
-draft: false # 是否为草稿
-comments: true # 本页面是否显示评论
-reward: false # 打赏
-mermaid: true #是否开启mermaid
-showToc: true # 显示目录
-TocOpen: false # 自动展开目录
-hidemeta: false # 是否隐藏文章的元信息，如发布日期、作者等
-disableShare: true # 底部不显示分享栏
-showbreadcrumbs: false #顶部显示路径
-cover:
-  image: "" #图片路径例如：posts/tech/123/123.png
-  zoom: # 图片大小，例如填写 50% 表示原图像的一半大小
-  caption: "" #图片底部描述
-  alt: ""
-  relative: false
----
-
 # 53. 最大子数组和
 
-题目：https://leetcode.cn/problems/maximum-subarray/
-
-
+题目：[https://leetcode.cn/problems/maximum-subarray/](https://leetcode.cn/problems/maximum-subarray/)
 
 ## 思路：
 
 > 原始思路：最初这个子数组为 nums 中所有元素，然后如果左边的缩减能让子数组变大，那么就缩减；右边同理。
->
+> 
 > 这样的考虑是欠缺的，因为不知道哪个数会被包含其中，且边界问题无法解决。
 
 正确思路：
-
 - 这道题要求的是**连续**，而且题目只要求返回结果，而不是求最大连续子数组是哪一个。由以上条件可以推出本道题通常可以使用**动态规划**解决。
 - 题目要求出最大和的连续子数组，但不知道是包含哪个数的最大和的连续子数组，那么我们只要求出**对于每一个数的最大和的连续子数组**就可以了。
 - 但当前设定存在**有后效性**，意思就是说，**不确定这个数属于连续子数组的第几个元素**。于是，我们重新定义，改为：**以每一个数结尾的最大和的连续子数组**。
@@ -48,8 +20,6 @@ cover:
     - 如果 dp[i - 1] <= 0，那么 nums[i] 加上前面的数 dp[i - 1] 以后值不会变大。于是 dp[i] 「另起炉灶」，此时单独的一个 nums[i] 的值，就是 dp[i]。
   - 结果：结果为 dp 数组中的最大值
 
-
-
 ### 优化
 
 因为最后要求的是最大值，那么状态转移方程可以是：`dp[i] = Math.max(dp[i - 1] + nums[i], nums[i]);`
@@ -57,8 +27,6 @@ cover:
 其次，结果中求最大值的过程可以在状态转移中求出
 
 最后，第 i 次的状态只和 i - 1 次有关，所以可以节省一点空间。
-
-
 
 ## 代码
 
@@ -89,6 +57,7 @@ class Solution {
         return res;
     }
 }
+
 ```
 
 优化版
@@ -106,5 +75,5 @@ public class Solution {
         return res;
     }
 }
-```
 
+```
