@@ -50,7 +50,7 @@ const pageTitle = title === "Dawn Journey" ? title : `${title} - Dawn Journey`;
         </script>
         <script is:inline>
             (function() {
-                const VRITE_TOKEN = "FHnI--Ivk2TIyhs_7eMWD:laAE0JFodUdy9q0BM0Yf6";
+                const VRITE_TOKEN = "V7PCpuoWSXzm_CMDOgE1e:b1zLP8Svx3o0akSs-tUMa";
 
                 function isEditable(el) {
                     if (!el) return false;
@@ -90,7 +90,7 @@ const pageTitle = title === "Dawn Journey" ? title : `${title} - Dawn Journey`;
                 }
 
                 async function queryVriteIdBySlug(slugMd) {
-                    const url = new URL('https://api.vrite.io/content-pieces/list');
+                    const url = new URL('https://api.vrite.hzau.top/content-pieces/list');
                     url.searchParams.set('slug', slugMd);
                     const res = await fetch(url.toString(), {
                         method: 'GET',
@@ -115,7 +115,7 @@ const pageTitle = title === "Dawn Journey" ? title : `${title} - Dawn Journey`;
                     try {
                         const id = await queryVriteIdBySlug(slugMd);
                         if (id) {
-                            window.location.href = 'https://app.vrite.io/editor/' + id;
+                            window.location.href = 'https://app.vrite.hzau.top/editor/' + id;
                         }
                     } catch {}
                 }

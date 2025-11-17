@@ -20,7 +20,7 @@ BASE_URL = f"https://raw.githubusercontent.com/{GITHUB_OWNER}/{GITHUB_REPO}/refs
 # External CDN URLs to convert to local paths
 # These CDN URLs will be converted to paths relative to the markdown file
 EXTERNAL_CDN_BASES = [
-    "https://assets.vrite.io",
+    "https://assets.vrite.hzau.top",
     # Add more CDN base URLs here as needed
 ]
 
