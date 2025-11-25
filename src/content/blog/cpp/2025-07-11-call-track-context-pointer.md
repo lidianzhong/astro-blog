@@ -4,8 +4,6 @@
 
 为了更优雅的实现这个机制，我们可以在每次函数调用时，将当前上下文信息（如函数名、调用时间、调用者等）记录下来，并在函数退出时清除或更新该信息。作用就是一个主要用于调试的手段吧。
 
-
-
 这里用了一个简单示例来演示使用栈来完成这样的追踪调用过程
 
 ```cpp
@@ -32,7 +30,7 @@ public:
 private:
     void print_stack(const std::string& phase) {
         // ... 遍历栈, 打印调用链 ...
-       	// print(func_name, full_stack);
+           // print(func_name, full_stack);
     }
 };
 
@@ -50,6 +48,7 @@ int main() {
     foo();
     return 0;
 }
+
 ```
 
 执行上方代码可以得到结果。由于在每个函数执行时，都往里面记录了当前函数的名称（"Enter"或"Exit"），然后打印栈信息，而栈又包括了链路信息，这样就可以知道执行到当前函数时的“调用链”。
@@ -61,5 +60,5 @@ int main() {
 [Exit] main -> foo -> bar -> ...
 [Exit] main -> foo -> ...
 [Exit] main -> ...
-```
 
+```
