@@ -1,16 +1,3 @@
----
-
-title: "560.和为k的子数组"
-published: 2025-04-17
-lastmod: 2025-04-17
-category: "算法"
-tags: ["算法", "Leetcode"]
-description: '给你一个整数数组 nums 和一个整数 k ，请你统计并返回 该数组中和为 k 的子数组的个数 。'
-
-## weight: 560 draft: false # 是否为草稿 comments: true # 本页面是否显示评论 reward: false # 打赏 mermaid: true #是否开启mermaid showToc: true # 显示目录 TocOpen: false # 自动展开目录 hidemeta: false # 是否隐藏文章的元信息，如发布日期、作者等 disableShare: true # 底部不显示分享栏 showbreadcrumbs: false #顶部显示路径 cover: image: "" #图片路径例如：posts/tech/123/123.png zoom: # 图片大小，例如填写 50% 表示原图像的一半大小 caption: "" #图片底部描述 alt: "" relative: false
-
-# 560. 和为 K 的子数组
-
 题目：[https://leetcode.cn/problems/subarray-sum-equals-k/](https://leetcode.cn/problems/subarray-sum-equals-k/)
 
 ## 思路
