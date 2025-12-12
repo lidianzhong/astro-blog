@@ -4,7 +4,7 @@
 
 ## 思路
 
-看这个视频了解广度优先搜索的方法：[课程表 LeetCode]((https://leetcode.cn/problems/course-schedule/solutions/359392/ke-cheng-biao-by-leetcode-solution)
+看这个视频了解广度优先搜索的方法：[课程表 LeetCode](https://leetcode.cn/problems/course-schedule/solutions/359392/ke-cheng-biao-by-leetcode-solution)
 
 总结一下，总共需要两个数据结构，edges[u]={v1, v2, v3}，由 u 指向 v，还有个 indge 数组表示节点的入度数量。然后大体有三个流程，初始化，队列入队，处理队列。背吧~
 
