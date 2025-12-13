@@ -1,34 +1,6 @@
----
-title: "49.字母异位词分组"
-published: 2025-03-27
-lastmod: 2025-03-27
-category: "算法"
-tags: ["算法", "Leetcode"]
-description: '给你一个字符串数组，请你将"字母异位词"组合在一起。可以按任意顺序返回结果列表。'
-
-weight: 49
-draft: false # 是否为草稿
-comments: true # 本页面是否显示评论
-reward: false # 打赏
-mermaid: true #是否开启mermaid
-showToc: true # 显示目录
-TocOpen: false # 自动展开目录
-hidemeta: false # 是否隐藏文章的元信息，如发布日期、作者等
-disableShare: true # 底部不显示分享栏
-showbreadcrumbs: false #顶部显示路径
-cover:
-  image: "" #图片路径例如：posts/tech/123/123.png
-  zoom: # 图片大小，例如填写 50% 表示原图像的一半大小
-  caption: "" #图片底部描述
-  alt: ""
-  relative: false
----
-
 # 49. 字母异位词分组
 
-题目：https://leetcode.cn/problems/group-anagrams
-
-
+题目：[https://leetcode.cn/problems/group-anagrams](https://leetcode.cn/problems/group-anagrams)
 
 ## 解答
 
@@ -63,6 +35,7 @@ public:
         return result;
     }
 };
+
 ```
 
 更简洁的代码：
@@ -88,9 +61,28 @@ public:
         return result;
     }
 };
+
 ```
 
+```cpp
+class Solution {
+public:
+    vector<vector<string>> groupAnagrams(vector<string>& strs) {
+        unordered_map<string, vector<string>> umap;
+        for (auto& s : strs) {
+            string s_sorted = s;
+            ranges::sort(s_sorted);
+            umap[s_sorted].push_back(s);
+        }
 
+        vector<vector<string>> ans;
+        for (auto& [_, v] : umap) {
+            ans.push_back(v);
+        }
+        return ans;
+    }
+};
+```
 
 ### 方法二：尝试不排序直接归类
 
@@ -98,9 +90,7 @@ public:
 
 民间代码（利用到了质数, 一些质数的乘积相同，那么这些质数一定相同）：
 
-
 > 这里的 mul 累乘时会出现很大的数，所以以下C++代码并没有通过，使用python可以解决这个问题！
-
 
 ```cpp
 class Solution {
@@ -128,6 +118,7 @@ public:
         return ans;
     }
 };
+
 ```
 
 ```python
@@ -150,9 +141,8 @@ class Solution:
             cnt[mul].append(s)
         
         return list(cnt.values())
+
 ```
-
-
 
 代码：
 
@@ -189,5 +179,5 @@ public:
         return ans;
     }
 };
-```
 
+```

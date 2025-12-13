@@ -8,6 +8,8 @@
 
 我们需要对递推表达式有个清晰的认识，当我们确定，dfs(i) 表示，从数组下标 i 开始往后，看到能构成的最长递增子序列长度。当不考虑第 i 个元素，dfs(i) 的结果为 dfs(i+1) 的结果；当考虑第 i 个元素，dfs(i) 的结果为 dfs(i+1) ~ dfs(n-1) 中所有满足开头大于 nums[i]  的最大值。
 
+> 以下函数有误！！！
+
 ```cpp
 class Solution {
 public:
@@ -41,6 +43,8 @@ public:
 ```
 
 跟上面一样的思路，我们可以写一个递减的版本。我们规定，dfs(i) 表示，从开头到第 i 个元素，看到能构成的最长递增子序列长度。
+
+> 以下函数有误！！！
 
 ```cpp
 class Solution {
@@ -83,17 +87,16 @@ class Solution {
 public:
     int lengthOfLIS(vector<int>& nums) {
         int n = nums.size();
-        vector<int> f(n);
+        vector<int> f(n); // f[i] 表示从开头到i，最长递增子序列长度
 
         for (int i = 0; i < n; i++) {
-            f[i] = 1;
+            f[i] = 1; // f[i] 的值最少为1，因为至少可以包含自身 {nums[i]}
             for (int j = 0; j < i; j++) {
                 if (nums[j] < nums[i]) {
-                    f[i] = max(f[i], f[j] + 1);
+                    f[i] = max(f[i], f[j] + 1); // 或者前面满足条件的+1，取最大
                 }
             }
         }
-
         return *max_element(f.begin(), f.end());
     }
 };
