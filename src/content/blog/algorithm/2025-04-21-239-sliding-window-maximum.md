@@ -1,33 +1,6 @@
----
-title: "239. 滑动窗口最大值"
-published: 2025-04-21
-lastmod: 2025-04-21
-category: "算法"
-tags: ["算法", "Leetcode"]
-description: '给你一个整数数组 nums，有一个大小为 k 的滑动窗口从数组的最左侧移动到数组的最右侧。你只可以看到在滑动窗口内的 k 个数字。滑动窗口每次只向右移动一位。返回滑动窗口中的最大值 。'
-weight: 239
-draft: false # 是否为草稿
-comments: true # 本页面是否显示评论
-reward: false # 打赏
-mermaid: true #是否开启mermaid
-showToc: true # 显示目录
-TocOpen: false # 自动展开目录
-hidemeta: false # 是否隐藏文章的元信息，如发布日期、作者等
-disableShare: true # 底部不显示分享栏
-showbreadcrumbs: false #顶部显示路径
-cover:
-  image: "" #图片路径例如：posts/tech/123/123.png
-  zoom: # 图片大小，例如填写 50% 表示原图像的一半大小
-  caption: "" #图片底部描述
-  alt: ""
-  relative: false
----
-
 # 239. 滑动窗口最大值
 
-题目：https://leetcode.cn/problems/sliding-window-maximum/
-
-
+题目：[https://leetcode.cn/problems/sliding-window-maximum/](https://leetcode.cn/problems/sliding-window-maximum/)
 
 ## 思路：
 
@@ -37,17 +10,19 @@ cover:
 
 正确思路是，注意到**滑动窗口中一个更小的数且更早进入的数是不可能成为最大值的**，于是我们将不合适的数剔除，就可以发现维护的数组是单调递减的，又由于在头尾加元素丢元素，于是这个数据结构便是单调队列。
 
-<br>
+
+
 
 > 原始伪代码：
->
+> 
 > ① 指针 i 从 0 遍历到 k-1，如果发现之前出现的数有小于等于 i 处的值，就剔除掉，然后将该数和下标加入队列。
->
-> ② 指针 i 从 k 到 n-1，首先将*超过队列长度的数字剔除*（如果第一个数在滑动窗口外边，就去掉），然后将*队列中小于等于 i 处的值的数剔除掉*，然后将该数和下标加入队列，然后记录当前队列的尾部的值。
+> 
+> ② 指针 i 从 k 到 n-1，首先将_超过队列长度的数字剔除_（如果第一个数在滑动窗口外边，就去掉），然后将_队列中小于等于 i 处的值的数剔除掉_，然后将该数和下标加入队列，然后记录当前队列的尾部的值。
 
 注意到，① 方法可以改为在 i >= k-1 时开始记录答案，② 中剔除可以从队列尾部剔除，且只需要将下标记录在队列中即可
 
-<br>
+
+
 
 正确伪代码：
 
@@ -55,16 +30,12 @@ cover:
 1. 入
 
 如果队列不为空且队列最后一个元素小于等于 nums[i]，那么就剔除, 然后将 nums[i] 加入队列
-
 2. 出
 
 如果第一个元素已经超过滑动窗口范围了，就剔除掉
-
 3. 记录答案
 
 如果 i >= k-1 时，记录答案
-
-
 
 ## 解答
 
@@ -87,5 +58,5 @@ class Solution:
             if i >= k - 1:
                 ans.append(nums[q[0]])
         return ans
-```
 
+```
